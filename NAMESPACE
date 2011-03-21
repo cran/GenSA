@@ -1,0 +1,2 @@
+export(GenSA)
+useDynLib("GenSA", createInstance, releaseInstance, execute, getREnergy, getRXMiniVector, getRTraceMat, getRNbFuncCall)
