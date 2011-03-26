@@ -25,19 +25,21 @@ constraints, ranging from the simplest box-constraints to even the most complex 
 \tabular{ll}{
 Package: \tab GenSA\cr
 Type: \tab Package\cr
-Version: \tab 0.99.1\cr
-Date: \tab 2011-03-15\cr
+Version: \tab 0.99.2\cr
+Date: \tab 2011-03-21\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
 }
 
 \author{
-Yang.Xiang, Sylvain.Gubian, PMP SA\cr
+Yang Xiang, Sylvain Gubian, Brian Suomela, Julia Hoeng, PMP SA.\cr
 Maintainer: DL.RSupport@pmi.com
 }
 
 \references{
+Xiang Y, Gubian S, Suomela B, Hoeng J (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". Journal of Statistical Software, Forthcoming. \url{http://www.jstatsoft.org/}.
+
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 
 Tsallis C, Stariolo DA (1996). "Generalized Simulated Annealing." Physica A, 233, 395--406.

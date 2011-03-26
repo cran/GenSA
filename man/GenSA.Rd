@@ -10,7 +10,7 @@
 %-#########################################################################################
 
 \name{GenSA}
-\Rdversion{0.99.1}
+\Rdversion{0.99.2}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \alias{GenSA}
 \title{
@@ -31,7 +31,7 @@ GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 	\item{x}{
-		Vector. Initial values for the components to be optimized. Default is \code{NULL}, in which case, default values will generated automatically.
+		Vector. Initial values for the components to be optimized. Default is \code{NULL}, in which case, default values will be generated automatically.
 	}
 	\item{param}{
 		Vector. Parameters that can be used in the function that is being optimized. If parameters are not needed, it has to be set to \code{NULL}.
@@ -44,8 +44,7 @@ GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
 		Vector. with length of \code{x}. Upper bounds for each component.
 	}
 	\item{fn}{
-		Objective function that have to be optimized with first argument \code{x} and with second argument \code{param}.
-		\code{fn} has to return a scalar result. Please refer to given example.
+		Objective function which the user would like to optimize. The objective function has two arguments, \code{x} and \code{param}. \code{fn} will return a scalar result. Please refer to the given example.
 	}
 	\item{jc}{
 		Constraint function. A function that describes the linear/non-linear constraints with first argument \code{x} and second argument \code{param}.
@@ -53,7 +52,7 @@ GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
         Please refer to the given example.
 	}
 	\item{control}{
-		The argument \code{control} is a list that can be used to control the behavior, the following controls are available:
+		The argument is a list that can be used to control the behavior of the algorithm for advanced usage, the following controls are available:
 		\describe{
 			\item{rseed:}{
 				Integer used by the \code{set.seed} function for random number generation in R in case initial values of \code{x} are not
@@ -70,8 +69,8 @@ GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
 				global minimum. This control option can be used for testing purpose. Default value is \code{FALSE} which means we don't know the real energy value.
 			}
 			\item{error.real.energy:}{
-				In case \code{know.real.energy} is \code{TRUE}, percentage value corresponding to the accepted error:\cr
-			 	abs(\code{current.energy-real.energy})*100/abs(\code{real.energy}) <= \code{error.real.energy} \cr is satisfied.
+				In case \code{know.real.energy} is \code{TRUE}, percentage value corresponding to the accepted error. The algorithm will stop when:\cr
+			 	abs(\code{current.energy-real.energy})*100/abs(\code{real.energy}) <= \code{error.real.energy} is satisfied.
 				Default value is 0.01.
 			}
 			\item{real.energy:}{
@@ -135,10 +134,12 @@ optim
 }
 
 \references{
+Xiang Y, Gubian S, Suomela B, Hoeng (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". Journal of Statistical Software, Forthcoming. \url{http://www.jstatsoft.org/}.
+
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 
 Tsallis C, Stariolo DA (1996). "Generalized Simulated Annealing." Physica A, 233, 395--406.
-
+ 	
 Xiang Y, Sun DY, Fan W, Gong XG (1997). "Generalized Simulated Annealing Algorithm and Its Application to the Thomson Model." Physics Letters A, 233, 216--220.
 
 Xiang Y, Gong XG (2000a). "Efficiency of Generalized Simulated Annealing." PHYSICAL REVIEW E, 62, 4473.
@@ -222,7 +223,7 @@ cat("The coordinates of global minimum of Shubert function are: ",
 }
 
 \author{
-yang.xiang@pmi.com, sylvain.gubian@pmi.com, PMP SA
+Yang Xiang, Sylvain Gubian, Brian Suomela, Julia Hoeng, PMP SA.
 }
 
 
