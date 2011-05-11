@@ -1,0 +1,5 @@
+2011-05-12  Sylvain Gubian  <DL.RSupport@pmi.com>
+
+        * NEWS: add NEWS file for tracking changes.
+        * inst/CITATION: fix title of the package
+        * DESCRIPTION: add Depends field

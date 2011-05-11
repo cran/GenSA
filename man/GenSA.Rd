@@ -10,7 +10,7 @@
 %-#########################################################################################
 
 \name{GenSA}
-\Rdversion{0.99.2}
+\Rdversion{0.99.3}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \alias{GenSA}
 \title{
