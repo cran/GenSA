@@ -1,7 +1,7 @@
 citHeader("To cite GenSA in publications use:")
 
 citEntry(entry = "Article",
-  title        = "Genetic Optimization Using Derivatives: The {rgenoud} Package for {R}.",
+  title        = "Generalized Simulated Annealing for Efficient Global Optimization: the {GenSA} Package for {R}.",
   author       = personList(person("Yang Xiang"),
                    as.person("Sylvain Gubian"),
                    as.person("Brian Suomela"),

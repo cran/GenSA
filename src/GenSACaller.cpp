@@ -12,7 +12,6 @@
 
 GenSACaller::GenSACaller()
 {
-	// Allocate memory for xMini
 	// xmini is the vector which contains the results of minimization
 	xMini_ = 0;
 	traceMat_ = 0;
