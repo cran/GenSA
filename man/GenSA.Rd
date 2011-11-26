@@ -10,8 +10,7 @@
 %-#########################################################################################
 
 \name{GenSA}
-\Rdversion{0.99.3}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\Rdversion{1.0.0}
 \alias{GenSA}
 \title{
 Generalized Simulated Annealing Function
@@ -26,83 +25,69 @@ constraints, ranging from the simplest box-constraints to even the most complex 
 In this package, the value of the objective function is called energy.
 }
 \usage{
-GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
+GenSA(par, lower, upper, fn, control=list(), ...)
+}
+
+\details{
+	The default values of the control components are set for a complex optimization problem. For usual optimization problem with medium
+	complexity, \code{GenSA} can find a reasonable solution quickly so the user is strongly recommended to let \code{GenSA} stop
+	earlier by setting \code{threshold.stop} if \code{threshold.stop} is the targeted function value, or by setting \code{max.time}
+	if the user just want to run \code{GenSA} \code{max.time} seconds, or by setting \code{max.call} if the user just want to run 
+	\code{GenSA} within \code{max.call} function calls. Please refer to the examples below. For very complex function, the user is recommended to increase \code{maxit} and 
+	\code{temp}. 
+	   
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-	\item{x}{
+	\item{par}{
 		Vector. Initial values for the components to be optimized. Default is \code{NULL}, in which case, default values will be generated automatically.
 	}
-	\item{param}{
-		Vector. Parameters that can be used in the function that is being optimized. If parameters are not needed, it has to be set to \code{NULL}.
-		Please refer to the Schubert function example for details.
+	\item{lower}{
+		Vector with length of \code{par}. Lower bounds for components.
 	}
-	\item{lb}{
-		Vector with length of \code{x}. Lower bounds for each component.
-	}
-	\item{ub}{
-		Vector. with length of \code{x}. Upper bounds for each component.
+	\item{upper}{
+		Vector with length of \code{par}. Upper bounds for components.
 	}
 	\item{fn}{
-		Objective function which the user would like to optimize. The objective function has two arguments, \code{x} and \code{param}. \code{fn} will return a scalar result. Please refer to the given example.
+		A function to be minimized, with first argument the vector of parameters over which minimization is to take place. It should return
+		a scalar result.
 	}
-	\item{jc}{
-		Constraint function. A function that describes the linear/non-linear constraints with first argument \code{x} and second argument \code{param}.
-        \code{jc} has to return a logical value. Default value is \code{NULL} which means there is not any further constraint except \code{lb} and \code{ub}.
-        Please refer to the given example.
+	\item{...}{
+		allows the user to pass additional arguments to the function \code{fn}.
 	}
 	\item{control}{
-		The argument is a list that can be used to control the behavior of the algorithm for advanced usage, the following controls are available:
+		The argument is a list that can be used to control the behavior of the algorithm:
 		\describe{
-			\item{rseed:}{
-				Integer used by the \code{set.seed} function for random number generation in R in case initial values of \code{x} are not
-				provided.
+			\item{maxit:}{
+				Integer. Maximum number of iterations of the algorithm. 
 			}
-			\item{max.step:}{
-				Integer. Maximum number of run of the algorithm. Default value is 5000.
+			\item{threshold.stop:}{
+				Numeric. The program will stop when the targeted objective function value \code{threshold.stop} is reached. Default value is \code{NULL}
 			}
-			\item{interval:}{
-				Integer. Number of results output per interval steps when \code{verbose} control option is set to \code{TRUE}.
+			\item{nb.stop.improvement:}{
+				Integer. Number of iteration to let run when the algorithm does not give any improvement in the minimum value found of the objective function.
 			}
-			\item{know.real.energy:}{
-				Logical. \code{TRUE} means that we know the real energy in advance which can stops the algorithm earlier after the it has found the real
-				global minimum. This control option can be used for testing purpose. Default value is \code{FALSE} which means we don't know the real energy value.
+			\item{smooth}{
+				Logical.\code{TRUE} when the objective function is smooth, or differentiable almost everywhere in the
+				region of \code{par}, \code{FALSE} otherwise. Default value is \code{TRUE}.
 			}
-			\item{error.real.energy:}{
-				In case \code{know.real.energy} is \code{TRUE}, percentage value corresponding to the accepted error. The algorithm will stop when:\cr
-			 	abs(\code{current.energy-real.energy})*100/abs(\code{real.energy}) <= \code{error.real.energy} is satisfied.
-				Default value is 0.01.
+			\item{max.call}{
+				Integer. Maximum number of call of the objective function. Default is set to 1e7.
 			}
-			\item{real.energy:}{
-				Numeric. In case \code{know.real.energy} is \code{TRUE}, it corresponds to the real energy value (real global minimum of the objective function).
+			\item{max.time}{
+				Numeric. Maximum running time in seconds.
 			}
-			\item{has.judge.function}{
-				Logical. \code{TRUE} means that the constraint function passed as \code{jc} argument will be called by the algorithm. Default is \code{FALSE}.
-			}
-			\item{temp.init:}{
-				Numeric. Initial value for temperature.	Default value is 3000.
+			\item{temp:}{
+				Numeric. Initial value for temperature.
 			}
 			\item{visiting.param:}{
-				Numeric. Parameter for visiting distribution. Default value is 2.62.
+				Numeric. Parameter for visiting distribution.
 			}
 			\item{acceptance.param:}{
-				Numeric. Parameter for acceptance distribution. Default value is -5.0.
-			}
-			\item{component.change:}{
-				Numeric. 1 means that components of \code{x} will be changed one by one, 2 means that they will be changed simultaneously. Default value is 2.
-			}
-			\item{seed.init:}{
-				Negative integer used for internal behavior of the algorithm.  Default value is -1333333. In general, this should not be modified.
-			}
-			\item{seed.random:}{
-				Negative integer used for internal behavior of the algorithm.  Default value is -100377. In general, this should not be modified.
-			}
-			\item{markov.length:}{
-				Integer. Length of the Markov chain. Default value is the length of \code{x}.
+				Numeric. Parameter for acceptance distribution.
 			}
 			\item{verbose:}{
 				Logical. \code{TRUE} means that messages from the algorithm are shown. Default is \code{FALSE}.
-				Note that displaying algorithm messages on the console decreases a lot the performances. Default option is recommended.
 			}
 		}
 	}
@@ -112,17 +97,17 @@ GenSA(x, param, lb, ub, fn, jc=NULL, control=list())
 \value{
 	The returned value is a list with the following fields:
 	\describe{
-		\item{energy:}{
-			Numeric. Global minimum identified of the objective function.
+		\item{value:}{
+			Numeric. The value of \code{fn} corresponding to \code{par}.
 		}
-		\item{x:}{
-			Coordinates of the global minimum found.
+		\item{par:}{
+			Vector. The best set of parameters found.
 		}
 		\item{trace.mat:}{
-			A matrix which contains the history of the algorithm. (By columns: Record index, number of steps, temperature, number of function calls,
-			current energy value, current minimum energy value). Each row corresponds to a run record.
+			A matrix which contains the history of the algorithm. (By columns: Step number, temperature,
+			current objective function value, current minimum objective function value).
 		}
-		\item{nb.calls:}{
+		\item{counts:}{
 			Integer. Total number of calls of the objective function.
 		}
 	}
@@ -134,7 +119,7 @@ optim
 }
 
 \references{
-Xiang Y, Gubian S, Suomela B, Hoeng (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". Journal of Statistical Software, Forthcoming. \url{http://www.jstatsoft.org/}.
+Xiang Y, Gubian S, Suomela B, Hoeng (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
 
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 
@@ -149,78 +134,35 @@ Xiang Y, Sun DY, Gong XG (2000). "Generalized Simulated Annealing Studies on Str
 
 
 \examples{
-library("GenSA")
-# Example of Rosenbrock banana function with param = 2
-# The global minimum is 0 at c(1,1).
-Banana <- function(x,param) {   
-    x1 <- x[1]
-    x2 <- x[2]
-    exponential <- param 
-    100 * (x2 - x1 * x1)^exponential + (1 - x1)^exponential
+library(GenSA)
+# Try Rastrgin function (The objective function value for global minimum is 0 with all components of par are 0.)
+rastrigin <- function(x) {
+  return(sum(sapply(1:(length(x)), function(i){ x[i]^2 - 10*cos(2*pi*x[i]) + 10 })))  
+}
+# Perform the search on a 30 dimensions rastrigin function. Rastrigin function with dimension 30 is known as the most difficult optimization
+# problem according to
+# GenSA will stop after finding the targeted function value 0 with absolute tolerance 1e-13
+set.seed(1234) # The user can use any seed.
+dimension <- 30
+global.min <- 0
+tol <- 1e-13
+lower <- rep(-5.12, dimension)
+upper <- rep(5.12, dimension)
+out <- GenSA(lower = lower, upper = upper, fn = rastrigin, control=list(threshold.stop=global.min+tol,verbose=TRUE))
+out[c("value","par","counts")]
+
+# GenSA will stop after running during 10 seconds
+set.seed(1234) # The user can use any seed.
+dimension <- 30
+global.min <- 0
+tol <- 1e-13
+lower <- rep(-5.12, dimension)
+upper <- rep(5.12, dimension)
+out <- GenSA(lower = lower, upper = upper, fn = rastrigin, control=list(max.time=10))
+out[c("value","par","counts")]
 }
 
-# Identify the global minimum of Rosenbrock banana function by using GenSA.
-# The param of Rosenbrock banana function is 2.
-lb <- c(-2,-1); ub <- c(2,3)
-result <- GenSA(x=NULL, param=2, lb=lb, ub=ub, fn=Banana)
-cat("The global minimum of Rosenbrock banana function is: ",result$energy,
-"\n",fill=TRUE)
-cat("The coordinates of global minimum of Rosenbrock banana function are: ",
- result$x,"\n",fill=TRUE)
- 
-# Sometimes there is a linear or nonlinear constraint for the objective function. 
-# Here we add a nonlinear constraint which is an annulus surrounding c(1,1), 
-# the global minimum of Banana function. Optimization algorithm can only search 
-# the area which is not covered by this annulus constraint. 
 
-# Example of constraint function
-judge_constraint <- function(x,param) {
-  # judge function  
-  # Below give a annulus constraint, which surround c(1,1), the global 
-  # minimum of Banana function.
-  in_constraint <- ( (x[1] -1)^2 + (x[2] -1)^2 <= 0.5^2 ) || 
-   ( (x[1] -1)^2 + (x[2] -1)^2 >= 0.6^2 )
-  return(in_constraint)
-}
-
-# Identify the global minimum of Rosenbrock Banana function with a non-linear
-# constraint by using GenSA.
-result <- GenSA(x=NULL, param=2, lb=lb, ub=ub, fn=Banana,jc=judge_constraint)
-cat("The global minimum of Rosenbrock Banana function is: ",result$energy,
-"\n",fill=TRUE)
-cat("The coordinates of global minimum of Rosenbrock Banana function are:",
- result$x,"\n",sep=" ",fill=TRUE)
-
-
-# Example of function Shubert (SH) with param=NULL since this function
-# has no parameter. Please note: though there is no parameter, the function
-# should still have two input variables as shown below. This function 
-# has 760 local minima, 18 of which are global minima with function 
-# value -186.7309. -10 <= x$_{i}$ <=10
-Shubert <- function(x,param) {      
-  x1 <- x[1]
-  x2 <- x[2]
-  sum1 <- 0 
-  for (i in 1:5) {
-    tmp <- i*cos((i+1)*x1+i) 
-    sum1 <- sum1+tmp
-  }
-  sum2 <- 0 
-  for (i in 1:5) {
-    tmp <- i*cos((i+1)*x2+i) 
-    sum2 <- sum2+tmp
-  }
-  sum1*sum2
-}
-
-# Identify the global minimum of Shubert function by using GenSA.
-lb <- rep(-10,2)
-ub <- rep(10,2)
-result <- GenSA(x=NULL, param=NULL, lb, ub, fn=Shubert)
-cat("The global minimum of Shubert function is: ",result$energy,"\n")
-cat("The coordinates of global minimum of Shubert function are: ",
- result$x,"\n",fill=TRUE)
-}
 
 \author{
 Yang Xiang, Sylvain Gubian, Brian Suomela, Julia Hoeng, PMP SA.

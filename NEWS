@@ -1,3 +1,14 @@
+2011-09-01 Sylvain Gubian  <DL.RSupport@pmi.com>
+
+		* src/Caller.cpp: New file for wrapping the engine to R
+		* src/Caller.h: New file for wrapping the engine to R
+		* src/Engine.cpp: New C++ faster implementation
+		* src/Engine.h: New C++ faster implementation
+		* src/Utils.cpp: New file for util functions
+		* src/Utils.h: New file for util functions
+		* src/Tracer.cpp: New file for recording algorithm behavior
+		* src/Tracer.h: New file for recording algorithm behavior
+
 2011-05-12  Sylvain Gubian  <DL.RSupport@pmi.com>
 
         * NEWS: add NEWS file for tracking changes.
