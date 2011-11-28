@@ -17,27 +17,20 @@ Generalized Simulated Annealing Function
 }
 \description{
 This function searches for global minimum of a very complex non-linear objective function with a very large number of optima. 
-Another attractive capability of  this function is that it can automatically handle all types of 
-constraints, ranging from the simplest box-constraints to even the most complex non-linear constraints.
 }
 
-\note{
-In this package, the value of the objective function is called energy.
-}
 \usage{
 GenSA(par, lower, upper, fn, control=list(), ...)
 }
 
 \details{
-	The default values of the control components are set for a complex optimization problem. For usual optimization problem with medium
-	complexity, \code{GenSA} can find a reasonable solution quickly so the user is strongly recommended to let \code{GenSA} stop
-	earlier by setting \code{threshold.stop} if \code{threshold.stop} is the targeted function value, or by setting \code{max.time}
-	if the user just want to run \code{GenSA} \code{max.time} seconds, or by setting \code{max.call} if the user just want to run 
-	\code{GenSA} within \code{max.call} function calls. Please refer to the examples below. For very complex function, the user is recommended to increase \code{maxit} and 
-	\code{temp}. 
-	   
+	The default values of the control components are set for a complex optimization problem.
+	For usual optimization problem with medium complexity, GenSA can find a reasonable solution quickly so
+	the user is recommended to let GenSA stop earlier by setting \code{threshold.stop} if \code{threshold.stop} is the expected
+	function value, or by setting \code{max.time} if the user just want to run GenSA for \code{max.time} seconds, or
+	by setting \code{max.call} if the user just want to run GenSA within \code{max.call} function calls. Please refer to the examples
+	below. For very complex optimization problems, the user is recommended to increase \code{maxit} and \code{temp}.
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
 	\item{par}{
 		Vector. Initial values for the components to be optimized. Default is \code{NULL}, in which case, default values will be generated automatically.
@@ -62,19 +55,19 @@ GenSA(par, lower, upper, fn, control=list(), ...)
 				Integer. Maximum number of iterations of the algorithm. 
 			}
 			\item{threshold.stop:}{
-				Numeric. The program will stop when the targeted objective function value \code{threshold.stop} is reached. Default value is \code{NULL}
+				Numeric. The program will stop when the expected objective function value \code{threshold.stop} is reached. Default value is \code{NULL}
 			}
 			\item{nb.stop.improvement:}{
-				Integer. Number of iteration to let run when the algorithm does not give any improvement in the minimum value found of the objective function.
+				Integer. The program will stop when there is no any improvement in \code{nb.stop.improvement} steps. 
 			}
-			\item{smooth}{
+			\item{smooth:}{
 				Logical.\code{TRUE} when the objective function is smooth, or differentiable almost everywhere in the
 				region of \code{par}, \code{FALSE} otherwise. Default value is \code{TRUE}.
 			}
-			\item{max.call}{
+			\item{max.call:}{
 				Integer. Maximum number of call of the objective function. Default is set to 1e7.
 			}
-			\item{max.time}{
+			\item{max.time:}{
 				Numeric. Maximum running time in seconds.
 			}
 			\item{temp:}{
@@ -105,7 +98,7 @@ GenSA(par, lower, upper, fn, control=list(), ...)
 		}
 		\item{trace.mat:}{
 			A matrix which contains the history of the algorithm. (By columns: Step number, temperature,
-			current objective function value, current minimum objective function value).
+			current objective function value, current minimal objective function value).
 		}
 		\item{counts:}{
 			Integer. Total number of calls of the objective function.
@@ -136,11 +129,13 @@ Xiang Y, Sun DY, Gong XG (2000). "Generalized Simulated Annealing Studies on Str
 \examples{
 library(GenSA)
 # Try Rastrgin function (The objective function value for global minimum is 0 with all components of par are 0.)
-rastrigin <- function(x) {
+Rastrigin <- function(x) {
   return(sum(sapply(1:(length(x)), function(i){ x[i]^2 - 10*cos(2*pi*x[i]) + 10 })))  
 }
 # Perform the search on a 30 dimensions rastrigin function. Rastrigin function with dimension 30 is known as the most difficult optimization
-# problem according to
+# problem according to "Yao X, Liu Y, Lin G (1999). \Evolutionary Programming Made Faster." IEEE Transactions
+# on Evolutionary Computation, 3(2), 82-102."
+
 # GenSA will stop after finding the targeted function value 0 with absolute tolerance 1e-13
 set.seed(1234) # The user can use any seed.
 dimension <- 30
@@ -148,17 +143,18 @@ global.min <- 0
 tol <- 1e-13
 lower <- rep(-5.12, dimension)
 upper <- rep(5.12, dimension)
-out <- GenSA(lower = lower, upper = upper, fn = rastrigin, control=list(threshold.stop=global.min+tol,verbose=TRUE))
+out <- GenSA(lower = lower, upper = upper, fn = Rastrigin, control=list(threshold.stop=global.min+tol,verbose=TRUE))
 out[c("value","par","counts")]
 
-# GenSA will stop after running during 10 seconds
+# GenSA will stop after running for 10 seconds
+# Note: The time for solving this problem by GenSA may vary depending on the computer used. 
 set.seed(1234) # The user can use any seed.
 dimension <- 30
 global.min <- 0
 tol <- 1e-13
 lower <- rep(-5.12, dimension)
 upper <- rep(5.12, dimension)
-out <- GenSA(lower = lower, upper = upper, fn = rastrigin, control=list(max.time=10))
+out <- GenSA(lower = lower, upper = upper, fn = Rastrigin, control=list(max.time=10))
 out[c("value","par","counts")]
 }
 
