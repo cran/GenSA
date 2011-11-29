@@ -1,4 +1,9 @@
-2011-09-01 Sylvain Gubian  <DL.RSupport@pmi.com>
+2011-11-28 Sylvain Gubian  <DL.RSupport@pmi.com>
+		* src/Caller.cpp: Fix compilation issue with std::vector
+		* src/Utils.cpp: Fic compilation issue with ddMod function
+		* src/Engine.cpp: Fix compilation warning
+
+2011-11-25 Sylvain Gubian  <DL.RSupport@pmi.com>
 
 		* src/Caller.cpp: New file for wrapping the engine to R
 		* src/Caller.h: New file for wrapping the engine to R

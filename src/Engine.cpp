@@ -145,7 +145,7 @@ int Engine::startSearch()
 	double s1, s, t1, t2, r, pqa, pqa1;
 	bool inConstraint = false;
 	bool eMini_NotChanged = true;
-	double eMiniMarkov;
+	double eMiniMarkov = 0;
 	int indexNoEminiUpdate = 0;
 	int indexTolEminiUpdate = 1000;
 	dVec xMiniMarkov(x_.size());
@@ -224,7 +224,7 @@ int Engine::startSearch()
 		indexNoEminiUpdate++;
 
 		// Markov loop
-		for (int j = 0; j < markovLength_; ++j)
+		for (unsigned int j = 0; j < (unsigned)markovLength_; ++j)
 		{
 			if (j == 0)
 			{
@@ -468,7 +468,7 @@ int Engine::startSearch()
 bool Engine::checkStoping()
 {
 	bool canStop = false;
-	double tArray[2], delta;
+	double delta = 0;
 	if (knowRealEnergy_)
 	{
 		canStop = eMini_ <= realEnergyThreshold_;

@@ -25,7 +25,7 @@ SEXP Caller::getXMiniVector()
 	double* doubleValuePtr = 0;
 	Rf_protect(returnValue = allocVector(REALSXP, engine_.getX().size()));
 	doubleValuePtr = NUMERIC_POINTER(returnValue);
-	memcpy(doubleValuePtr, engine_.getXMini().data(),
+	memcpy(doubleValuePtr, &(engine_.getXMini())[0],
 			engine_.getXMini().size() * sizeof(double));
 	Rf_unprotect(1);
 	return returnValue;

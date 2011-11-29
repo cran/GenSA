@@ -10,6 +10,7 @@
 
 double Utils::dMod(double *x, double *y)
 {
+/*	
 	double xa, ya, z;
 	xa = *x;
 	ya = *y;
@@ -24,6 +25,13 @@ double Utils::dMod(double *x, double *y)
 	else if (z > 0)
 		z -= ya;
 	return z;
+*/
+	double quotient;
+	if( (quotient = *x / *y) >= 0)
+		quotient = floor(quotient);
+	else
+		quotient = -floor(-quotient);
+	return(*x - (*y) * quotient );
 }
 
 double Utils::dSign(double *a, double *b)
