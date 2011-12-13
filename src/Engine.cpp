@@ -810,7 +810,7 @@ int Engine::hardSearch()
 		xBuffer_[i] = REAL(VECTOR_ELT(val, 2))[i];
 	}
 	counts = INTEGER(VECTOR_ELT(val, 3))[0];
-	nbFctCall_ += counts;
+	nbFctCall_ = counts;
 	UNPROTECT(6);
 	return 0;
 }

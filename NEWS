@@ -1,10 +1,12 @@
+2011-12-13 Sylvain Gubian  <DL.RSupport@pmi.com>
+		*man/GenSA.Rd: Fix truncated line in the help.
+		
 2011-11-28 Sylvain Gubian  <DL.RSupport@pmi.com>
 		* src/Caller.cpp: Fix compilation issue with std::vector
-		* src/Utils.cpp: Fic compilation issue with ddMod function
+		* src/Utils.cpp: Fix compilation issue with ddMod function
 		* src/Engine.cpp: Fix compilation warning
 
 2011-11-25 Sylvain Gubian  <DL.RSupport@pmi.com>
-
 		* src/Caller.cpp: New file for wrapping the engine to R
 		* src/Caller.h: New file for wrapping the engine to R
 		* src/Engine.cpp: New C++ faster implementation
@@ -15,7 +17,6 @@
 		* src/Tracer.h: New file for recording algorithm behavior
 
 2011-05-12  Sylvain Gubian  <DL.RSupport@pmi.com>
-
         * NEWS: add NEWS file for tracking changes.
         * inst/CITATION: fix title of the package
         * DESCRIPTION: add Depends field
