@@ -85,7 +85,7 @@ SEXP Caller::getListElement(SEXP list, char* elementName)
 	SEXP elmt = R_NilValue, names = getAttrib(list, R_NamesSymbol);
 	int i;
 
-	for (i = 0; i < length(list); i++)
+	for (i = 0; i < length(list); ++i)
 		if (strcmp(CHAR(STRING_ELT(names, i)), elementName) == 0)
 		{
 			elmt = VECTOR_ELT(list, i);
