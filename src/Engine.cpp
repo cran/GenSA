@@ -38,7 +38,6 @@ int Engine::initialize()
 	xBackup_.resize(x_.size());
 	xMini_.resize(x_.size());
 	xBuffer_.resize(x_.size());
-	xBigBuffer_.resize(x_.size() * x_.size());
 	g_.resize(x_.size());
 
 	itSoftMax_ = x_.size() * 6;
@@ -441,6 +440,10 @@ int Engine::startSearch()
 							xMini_.begin());
 					eMini_ = eMiniMarkov;
 					indexNoEminiUpdate = 0;
+					if (checkStoping()) {
+						stopSearch() ;
+						return 0;
+					}
 				}
 			}
 		}
@@ -602,10 +605,10 @@ double Engine::lsEnergy(dVec& x)
 //	printVect(xBuffer_);
 
 // Filling XBigBuffer with ones
-	for (unsigned int i = 0; i < x_.size(); ++i)
-	{
-		xBigBuffer_[i * x_.size() + i] = 1.;
-	}
+//	for (unsigned int i = 0; i < x_.size(); ++i)
+//	{
+//		xBigBuffer_[i * x_.size() + i] = 1.;
+//	}
 
 // Switch between methods
 	if (method_ == Engine::SMOOTH)
@@ -825,8 +828,8 @@ int Engine::smoothSearch()
 	int m = 5;
 	bool canstop = 0;
 
-	wa = (double *) S_alloc(2 * m * xSize + 4 * xSize + 11 * m * m + 8 * m,
-			sizeof(double));
+	wa = (double*) malloc(
+				((2 * m + 4) * xSize + 11 * m * m + 8 * m) * sizeof(double));
 	iwa = (int *) R_alloc(3 * xSize, sizeof(int));
 
 	if (itSoftMax_ < 100)
