@@ -1,3 +1,7 @@
+2012-02-23: Sylvain Gubian  <DL.RSupport@pmi.com>
+		*src/Engine.cpp: Reduce memory usage by removing unused matrix
+		*src/Engine.cpp: Fix memory allocation for ls routine
+
 2011-12-13 Sylvain Gubian  <DL.RSupport@pmi.com>
 		*man/GenSA.Rd: Fix truncated line in the help.
 		

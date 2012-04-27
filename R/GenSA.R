@@ -145,6 +145,9 @@ GenSA <- function(par=NULL, lower, upper, fn, control=list(), ...)
 		if (length(upper)==0 || length(upper) != length(par)) {
 			stop("Upper bounds vector size does not match with par size, using -Inf")
 		}
+		if (any(is.na(par)) || any(is.nan(par)) || any(is.infinite(par))) {
+			stop("par contains NA, NAN or Inf")
+		}
 	}
 	else {
 		if (con$verbose) {

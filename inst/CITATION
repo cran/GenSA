@@ -7,11 +7,11 @@ citEntry(entry = "Article",
                    as.person("Brian Suomela"),
                    as.person("Julia Hoeng")),
   journal      = "The R Journal",
-  year         = "2011",
+  year         = "2012",
   note         = "Forthcoming",
   url          = "http://journal.r-project.org/",
   textVersion  =
-  paste("Y. Xiang, S. Gubian. B. Suomela, J. Hoeng (2011).",
+  paste("Y. Xiang, S. Gubian. B. Suomela, J. Hoeng (2012).",
         "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R.",
         "The R Journal, Forthcoming.",
         "URL http://journal.r-project.org/.")

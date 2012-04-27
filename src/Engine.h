@@ -52,7 +52,6 @@ private:
 	dVec x_;
 	dVec xMini_;
 	dVec xBuffer_;
-	dVec xBigBuffer_;
 	dVec xBackup_;
 	dVec lower_;
 	dVec upper_;

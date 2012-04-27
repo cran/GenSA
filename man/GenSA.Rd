@@ -10,7 +10,6 @@
 %-#########################################################################################
 
 \name{GenSA}
-\Rdversion{1.0.0}
 \alias{GenSA}
 \title{
 Generalized Simulated Annealing Function
@@ -112,7 +111,7 @@ optim
 }
 
 \references{
-Xiang Y, Gubian S, Suomela B, Hoeng (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
+Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
 
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 

@@ -23,7 +23,7 @@ This package implements a function that searches for global minimum of a very co
 \tabular{ll}{
 Package: \tab GenSA\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0\cr
+Version: \tab 1.0.3\cr
 Date: \tab 2011-11-25\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
@@ -36,7 +36,7 @@ Maintainer: DL.RSupport@pmi.com
 }
 
 \references{
-Xiang Y, Gubian S, Suomela B, Hoeng (2011). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
+Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
 
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 
