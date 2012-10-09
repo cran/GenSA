@@ -34,6 +34,7 @@ private:
 	double realEnergyThreshold_;
 	double maxTime_;
 	double timeSpan_;
+	double temRestart_;
 	clock_t startTime_;
 	clock_t endTime_;
 	bool hasConstraint_;
@@ -262,6 +263,12 @@ public:
 	{
 		lsEnd_ = b ;
 	}
+
+	void setTemRestart(double v)
+	{
+		temRestart_ = v;
+	}
+
 
 	int initialize();
 	int startSearch();

@@ -1,16 +1,29 @@
+2012-10-09: Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.1.0
+		*src/Engine.cpp: Re-annealing feature
+		*src/Engine.h: Re-annealing feature
+		*src/Utils.cpp: Remove calls to non public R API
+		*src/Utils.cpp: Remove calls to non public R API
+		*R/GenSA.R: Adjust the arguments order to be the same as optim
+		*man/GenSA.Rd: Adjust the arguments order to be the same as optim
+
 2012-02-23: Sylvain Gubian  <DL.RSupport@pmi.com>
+		*Version: 1.0.3
 		*src/Engine.cpp: Reduce memory usage by removing unused matrix
 		*src/Engine.cpp: Fix memory allocation for ls routine
 
 2011-12-13 Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.0.2
 		*man/GenSA.Rd: Fix truncated line in the help.
 		
 2011-11-28 Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.0.1
 		* src/Caller.cpp: Fix compilation issue with std::vector
 		* src/Utils.cpp: Fix compilation issue with ddMod function
 		* src/Engine.cpp: Fix compilation warning
 
 2011-11-25 Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.0.0
 		* src/Caller.cpp: New file for wrapping the engine to R
 		* src/Caller.h: New file for wrapping the engine to R
 		* src/Engine.cpp: New C++ faster implementation

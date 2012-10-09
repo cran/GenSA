@@ -9,6 +9,7 @@
 
 #include "Utils.h"
 #include "Engine.h"
+#include <stdexcept>
 
 Engine::Engine()
 {
@@ -34,11 +35,16 @@ int Engine::initialize()
 		Rprintf("Initialization...\n");
 	}
 	// Init x related vectors
-	xRange_.resize(x_.size());
-	xBackup_.resize(x_.size());
-	xMini_.resize(x_.size());
-	xBuffer_.resize(x_.size());
-	g_.resize(x_.size());
+	try {
+		xRange_.resize(x_.size());
+		xBackup_.resize(x_.size());
+		xMini_.resize(x_.size());
+		xBuffer_.resize(x_.size());
+		g_.resize(x_.size());
+	}
+	catch (std::length_error& le) {
+		  Rprintf("Engine: Length error: %s\n",le.what());
+	}
 
 	itSoftMax_ = x_.size() * 6;
 	factr_ = 1000;
@@ -149,6 +155,19 @@ int Engine::startSearch()
 	int indexTolEminiUpdate = 1000;
 	dVec xMiniMarkov(x_.size());
 
+//	if (x_.size() <= 2)
+//	{
+//		indexTolEminiUpdate = 1000;
+//	}
+//	else if (x_.size() > 2 && x_.size() <= 4)
+//	{
+//		indexTolEminiUpdate = 4 * x_.size();
+//	}
+//	else if (x_.size() > 4 && x_.size() <= 10)
+//	{
+//		indexTolEminiUpdate = 4 * x_.size();
+//	}
+
 	startTime_ = clock();
 	eMini_ = etot_;
 	xMini_ = x_;
@@ -209,6 +228,8 @@ int Engine::startSearch()
 	{
 		Rprintf("Number of function call: %i\n", nbFctCall_);
 	}
+	int stepRecord = 0;
+	L2435:
 
 	// Main loop
 	for (int i = 0; i < maxStep_; ++i)
@@ -219,11 +240,22 @@ int Engine::startSearch()
 		t1 = exp((qv_ - 1.) * log(2.)) - 1.;
 		t2 = exp((qv_ - 1.) * log(s)) - 1.;
 		tem_ = temSta_ * t1 / t2;
+		stepRecord += 1;
+		if (stepRecord == maxStep_)
+		{
+			break;
+		}
+		if (tem_ < temRestart_)
+		{
+			//printf("*\n");
+			goto L2435;
+		}
 		temQa = tem_ / (double) itNew;
+
 		indexNoEminiUpdate++;
 
 		// Markov loop
-		for (unsigned int j = 0; j < (unsigned)markovLength_; ++j)
+		for (unsigned int j = 0; j < (unsigned) markovLength_; ++j)
 		{
 			if (j == 0)
 			{
@@ -389,7 +421,7 @@ int Engine::startSearch()
 					}
 				} // end else hasConstraint
 			} // end while !inconstraint
-			if (indexNoEminiUpdate == indexTolEminiUpdate - 1)
+			if (indexNoEminiUpdate >= indexTolEminiUpdate - 1)
 			{
 				if (j == 0)
 				{
@@ -440,8 +472,13 @@ int Engine::startSearch()
 							xMini_.begin());
 					eMini_ = eMiniMarkov;
 					indexNoEminiUpdate = 0;
-					if (checkStoping()) {
-						stopSearch() ;
+					tracer_.updateLastValue("currentEnergy", etot0_);
+					tracer_.updateLastValue("minEnergy", eMini_);
+					tracer_.updateLastValue("nSteps", itNew);
+					tracer_.updateLastValue("temperature", tem_);
+					if (checkStoping())
+					{
+						stopSearch();
 						return 0;
 					}
 				}
@@ -829,7 +866,7 @@ int Engine::smoothSearch()
 	bool canstop = 0;
 
 	wa = (double*) malloc(
-				((2 * m + 4) * xSize + 11 * m * m + 8 * m) * sizeof(double));
+			((2 * m + 4) * xSize + 11 * m * m + 8 * m) * sizeof(double));
 	iwa = (int *) R_alloc(3 * xSize, sizeof(int));
 
 	if (itSoftMax_ < 100)
@@ -853,7 +890,7 @@ int Engine::smoothSearch()
 		Rprintf("iter: %d itSoftMax: %d \n", iter, itSoftMax_);
 	}
 
-	setulb(xSize, m, &xBuffer_[0], &lower_[0], &upper_[0], &nbd[0], &f, &g_[0],
+	Utils::setulb(xSize, m, &xBuffer_[0], &lower_[0], &upper_[0], &nbd[0], &f, &g_[0],
 			factr_, &pgTol_, wa, iwa, task, tr, lsave, isave, dsave);
 	iter++;
 	if (strncmp(task, "FG", 2) == 0)

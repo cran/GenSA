@@ -132,6 +132,18 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 		engine_.setKnowRealEnergy(false);
 	}
 
+	// Tem restart for re-annealing
+	if (!isNull(getListElement(controls_R, (char*) "tem.restart")))
+	{
+
+		engine_.setTemRestart(
+				asReal(getListElement(controls_R, (char*) "tem.restart")));
+	}
+	else
+	{
+		engine_.setTemRestart(1.);
+	}
+
 	// Maximum time allowed for calculation
 	if (!isNull(getListElement(controls_R, (char*) "max.time")))
 	{
