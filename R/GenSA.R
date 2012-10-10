@@ -11,7 +11,7 @@
 #########################################################################################
 
 
-GenSA <- function(par=NULL, lower, upper, fn, control=list(), ...)
+GenSA <- function(par=NULL, fn, lower, upper, control=list(), ...)
 {
 	# Do some checks
 	jc = NULL
@@ -115,7 +115,7 @@ GenSA <- function(par=NULL, lower, upper, fn, control=list(), ...)
 	)
 	con$high.dim = TRUE
 	con$markov.length = 2 * length(lower)
-	
+	con$tem.restart = .1
 	
 	# Perform some checks before callinc C code
 	nmsC <- names(con)

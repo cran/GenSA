@@ -19,7 +19,7 @@ This function searches for global minimum of a very complex non-linear objective
 }
 
 \usage{
-GenSA(par, lower, upper, fn, control=list(), ...)
+GenSA(par, fn, lower, upper, control=list(), ...)
 }
 
 \details{
@@ -34,15 +34,15 @@ GenSA(par, lower, upper, fn, control=list(), ...)
 	\item{par}{
 		Vector. Initial values for the components to be optimized. Default is \code{NULL}, in which case, default values will be generated automatically.
 	}
+	\item{fn}{
+		A function to be minimized, with first argument the vector of parameters over which minimization is to take place. It should return
+		a scalar result.
+	}
 	\item{lower}{
 		Vector with length of \code{par}. Lower bounds for components.
 	}
 	\item{upper}{
 		Vector with length of \code{par}. Upper bounds for components.
-	}
-	\item{fn}{
-		A function to be minimized, with first argument the vector of parameters over which minimization is to take place. It should return
-		a scalar result.
 	}
 	\item{...}{
 		allows the user to pass additional arguments to the function \code{fn}.
@@ -50,35 +50,35 @@ GenSA(par, lower, upper, fn, control=list(), ...)
 	\item{control}{
 		The argument is a list that can be used to control the behavior of the algorithm:
 		\describe{
-			\item{maxit:}{
+			\item{\code{maxit}}{
 				Integer. Maximum number of iterations of the algorithm. 
 			}
-			\item{threshold.stop:}{
+			\item{\code{threshold.stop}}{
 				Numeric. The program will stop when the expected objective function value \code{threshold.stop} is reached. Default value is \code{NULL}
 			}
-			\item{nb.stop.improvement:}{
+			\item{\code{nb.stop.improvement}}{
 				Integer. The program will stop when there is no any improvement in \code{nb.stop.improvement} steps. 
 			}
-			\item{smooth:}{
+			\item{\code{smooth}}{
 				Logical.\code{TRUE} when the objective function is smooth, or differentiable almost everywhere in the
 				region of \code{par}, \code{FALSE} otherwise. Default value is \code{TRUE}.
 			}
-			\item{max.call:}{
+			\item{\code{max.call}}{
 				Integer. Maximum number of call of the objective function. Default is set to 1e7.
 			}
-			\item{max.time:}{
+			\item{\code{max.time}}{
 				Numeric. Maximum running time in seconds.
 			}
-			\item{temp:}{
+			\item{\code{temp}}{
 				Numeric. Initial value for temperature.
 			}
-			\item{visiting.param:}{
+			\item{\code{visiting.param}}{
 				Numeric. Parameter for visiting distribution.
 			}
-			\item{acceptance.param:}{
+			\item{\code{acceptance.param}}{
 				Numeric. Parameter for acceptance distribution.
 			}
-			\item{verbose:}{
+			\item{\code{verbose}}{
 				Logical. \code{TRUE} means that messages from the algorithm are shown. Default is \code{FALSE}.
 			}
 		}
@@ -163,7 +163,6 @@ out <- GenSA(lower = lower, upper = upper, fn = Rastrigin,
    control=list(max.time=2))
 out[c("value","par","counts")]
 }
-
 
 
 \author{
