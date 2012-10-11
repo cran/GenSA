@@ -1,7 +1,7 @@
-5c1613cb228d7452569b571f073fa755 *DESCRIPTION
+928ae29736a4120e7dded39aa9c5579a *DESCRIPTION
 d2e82915fd7dd842e9a0d90ed72d6c1a *LICENSE
 3bdd59b7f3bfc0c927fa2818a1b7e6f5 *NAMESPACE
-3e7e6e0c834c681f0702246bd092c30b *NEWS
+5882746a6c19857b1b9c37e53de4f6d5 *NEWS
 26ca8d17c75ad39ff7b3d9e18c5cc3d5 *R/GenSA.R
 d4d7560abfcf1cfffb2b330f1ff557f6 *inst/CITATION
 bc164c431c82892ad215c4db62850fa8 *man/GenSA-package.Rd
@@ -10,9 +10,8 @@ a19e5b083338e7f5460f532b86af876b *src/Caller.cpp
 addb9495a8f93c03034af00748f392ae *src/Caller.h
 354748f5d68adb9665e97f20297695ac *src/Engine.cpp
 c31207332ab6293349dcdf5ec40d2f8d *src/Engine.h
-a223d9a26b2ecbf8d0a57c444c24a339 *src/Makevars.in
-5d60dbd8970c557b2f25d8acf8d5ae05 *src/Makevars.win
+029f5c9be3885e9ac0699a5c7724ba9b *src/Makevars
 8803ae57f73d70d81c9bbf056ad8f122 *src/Tracer.cpp
 f78f905f6723c7fb6e74438a98b93c59 *src/Tracer.h
-d6d424ee650b8ad6ea901be5c2f5f8e8 *src/Utils.cpp
-f7a0463c69650cfc2d50db78f421e118 *src/Utils.h
+7a21048e76e2cdc59489dbeae3312242 *src/Utils.cpp
+0441394c8321797eadc55480afa38f62 *src/Utils.h
