@@ -1,3 +1,8 @@
+2012-10-11: Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.1.1
+		*src/Makevars: Fixiing windows compilation iissue
+		
+
 2012-10-09: Sylvain Gubian  <DL.RSupport@pmi.com>
 		* Version: 1.1.0
 		*src/Engine.cpp: Re-annealing feature
