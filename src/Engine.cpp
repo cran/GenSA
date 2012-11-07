@@ -128,6 +128,13 @@ int Engine::initialize()
 				Rprintf(
 						" give NaN, NA, or inf, generating new starting point\n");
 			}
+			double rd = 0;
+			for (unsigned int i=0; i < x_.size(); ++i)
+			{
+				// lower + runif(length(lower))*(upper-lower)
+				rd = Utils::ran2(&idum_);
+				x_[i] = lower_[i] + rd * (upper_[i] - lower_[i]);
+			}
 		}
 		else
 		{
@@ -155,9 +162,14 @@ int Engine::startSearch()
 	int indexTolEminiUpdate = 1000;
 	dVec xMiniMarkov(x_.size());
 
+	if (getIsSimpleFunction())
+	{
+		indexTolEminiUpdate = x_.size();
+	}
+
 //	if (x_.size() <= 2)
 //	{
-//		indexTolEminiUpdate = 1000;
+//		indexTolEminiUpdate = 3;
 //	}
 //	else if (x_.size() > 2 && x_.size() <= 4)
 //	{
@@ -446,7 +458,15 @@ int Engine::startSearch()
 				std::copy(xMini_.begin(), xMini_.end(), temp.begin());
 				//Rprintf("Xmini:\n");
 				//printVect(xMini_);
+//				if (isUserVerbose())
+//				{
+//					Rprintf("Before lsEnergy, itNew: %d eTemp: %.15g x: %.15g %15g\n", itNew, eMini_, temp[0], temp[1]);
+//				}
 				double eTemp = lsEnergy(temp);
+//				if (isUserVerbose())
+//				{
+//					Rprintf("lsEnergy called, itNew: %d eTemp: %.15g x: %.15g %.15g\n", itNew, eTemp, temp[0], temp[1]);
+//				}
 
 				if (eTemp < eMini_)
 				{
@@ -465,17 +485,28 @@ int Engine::startSearch()
 			}
 			if (indexNoEminiUpdate >= indexTolEminiUpdate)
 			{
+				//Rprintf("Before lsEnergy, itNew: %d x: %.15g %.15g\n", itNew, xMiniMarkov[0], xMiniMarkov[1]);
 				eMiniMarkov = lsEnergy(xMiniMarkov);
+				//Rprintf("lsEnergy called, itNew: %d eMiniMarkov: %.15g x: %.15g %.15g\n", itNew, eMiniMarkov, xMiniMarkov[0], xMiniMarkov[1]);
+				if (isUserVerbose())
+				{
+					Rprintf(".");
+				}
+				indexNoEminiUpdate = 0;
+				indexTolEminiUpdate = x_.size();
 				if (eMiniMarkov < eMini_)
 				{
 					std::copy(xMiniMarkov.begin(), xMiniMarkov.end(),
 							xMini_.begin());
 					eMini_ = eMiniMarkov;
-					indexNoEminiUpdate = 0;
 					tracer_.updateLastValue("currentEnergy", etot0_);
 					tracer_.updateLastValue("minEnergy", eMini_);
 					tracer_.updateLastValue("nSteps", itNew);
 					tracer_.updateLastValue("temperature", tem_);
+					if (isUserVerbose())
+					{
+						Rprintf("\nIt: %d, obj value: %.10g\n", itNew, eMini_);
+					}
 					if (checkStoping())
 					{
 						stopSearch();
@@ -633,7 +664,6 @@ int Engine::energy(const dVec& x)
 
 double Engine::lsEnergy(dVec& x)
 {
-	int res = 0;
 // Saving given x to the buffer
 //	Rprintf("Xvector is:\n");
 //	printVect(x);
@@ -650,11 +680,11 @@ double Engine::lsEnergy(dVec& x)
 // Switch between methods
 	if (method_ == Engine::SMOOTH)
 	{
-		res = smoothSearch();
+		smoothSearch();
 	}
 	else
 	{
-		res = hardSearch();
+		hardSearch();
 	}
 	std::copy(xBuffer_.begin(), xBuffer_.end(), x.begin());
 	return fValue_;
@@ -767,7 +797,7 @@ int Engine::hardSearch()
 	SEXP xlow;
 	SEXP xhigh;
 
-	int lsConvergence = 0;
+	//int lsConvergence = 0;
 	int counts = 0;
 	double mu;
 	int xSize = x_.size();
@@ -843,7 +873,7 @@ int Engine::hardSearch()
 	val = eval(s, rEnv_->R_env);
 	fValue_ = REAL(VECTOR_ELT(val, 0))[0];
 
-	lsConvergence = INTEGER(VECTOR_ELT(val, 1))[0];
+	//lsConvergence = INTEGER(VECTOR_ELT(val, 1))[0];
 
 	for (unsigned int i = 0; i < xBuffer_.size(); ++i)
 	{

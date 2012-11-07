@@ -50,6 +50,7 @@ private:
 	int noImprovementStop_;
 	bool knowRealEnergy_;
 	bool lsEnd_ ;
+	bool isSimpleFuction_;
 	dVec x_;
 	dVec xMini_;
 	dVec xBuffer_;
@@ -75,11 +76,23 @@ public:
 		return false ;
 	}
 
+
 	bool isUserVerbose()
 	{
 		OptStruct OS = (OptStruct) rEnv_;
 		return (bool)(OS->verbose);
 	}
+
+	void setIsSimpleFunction(bool b)
+	{
+		isSimpleFuction_ = b;
+	}
+
+	bool getIsSimpleFunction()
+	{
+		return isSimpleFuction_;
+	}
+
 
 	void setTemSta(double v)
 	{

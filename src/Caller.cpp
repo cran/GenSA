@@ -185,6 +185,18 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 		engine_.setHasConstraint(false);
 	}
 
+	// Is it a simple function or not
+	if (!isNull(getListElement(controls_R, (char*) "simple.function")))
+	{
+		engine_.setIsSimpleFunction(
+				(bool)asInteger(getListElement(controls_R, (char*) "simple.function")));
+	}
+	else
+	{
+		engine_.setMaxTime(DBL_MAX);
+	}
+
+
 	// Lower bounds
 	engine_.setLower(xSize, REAL(lb_R));
 

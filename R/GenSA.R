@@ -111,6 +111,7 @@ GenSA <- function(par=NULL, fn, lower, upper, control=list(), ...)
 			nb.stop.improvement = 1e6,
 			smooth = TRUE,
 			max.call = 1e7,
+			simple.function = FALSE,
 			verbose = FALSE
 	)
 	con$high.dim = TRUE

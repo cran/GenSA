@@ -1,6 +1,12 @@
+2012-11-07: Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.1.2
+		*src/Engine.cpp: Fixing starting point generation
+		*src/Engine.cpp: Fixing warnings on windows
+
+
 2012-10-11: Sylvain Gubian  <DL.RSupport@pmi.com>
 		* Version: 1.1.1
-		*src/Makevars: Fixiing windows compilation iissue
+		*src/Makevars: Fixing windows compilation issue
 		
 
 2012-10-09: Sylvain Gubian  <DL.RSupport@pmi.com>
@@ -38,7 +44,7 @@
 		* src/Tracer.cpp: New file for recording algorithm behavior
 		* src/Tracer.h: New file for recording algorithm behavior
 
-2011-05-12  Sylvain Gubian  <DL.RSupport@pmi.com>
-        * NEWS: add NEWS file for tracking changes.
-        * inst/CITATION: fix title of the package
-        * DESCRIPTION: add Depends field
+2011-05-12 Sylvain Gubian  <DL.RSupport@pmi.com>
+		* NEWS: add NEWS file for tracking changes.
+		* inst/CITATION: fix title of the package
+		* DESCRIPTION: add Depends field
