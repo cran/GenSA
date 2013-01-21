@@ -1,12 +1,8 @@
-%- File: GenSA.Rd
-%- 
-%- Author: sylvain.gubian@pmintl.com
-%-
+%-#########################################################################################
 %- This program is distributed in the hope that it will be useful,
 %- but WITHOUT ANY WARRANTY; without even the implied warranty of
 %- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 %- GNU General Public License for more details.
-%-
 %-#########################################################################################
 
 \name{GenSA}
@@ -69,7 +65,7 @@ GenSA(par, fn, lower, upper, control=list(), ...)
 			\item{\code{max.time}}{
 				Numeric. Maximum running time in seconds.
 			}
-			\item{\code{temp}}{
+			\item{\code{temperature}}{
 				Numeric. Initial value for temperature.
 			}
 			\item{\code{visiting.param}}{
@@ -80,6 +76,12 @@ GenSA(par, fn, lower, upper, control=list(), ...)
 			}
 			\item{\code{verbose}}{
 				Logical. \code{TRUE} means that messages from the algorithm are shown. Default is \code{FALSE}.
+			}
+			\item{\code{simple.function}}{
+				Logical. \code{FALSE} means that the objective function has only a few local minima. Default is \code{FALSE} which means that the objective function is complicated with many local minima.
+			}
+			\item{\code{trace.fn}}{
+				Character string. The trace matrix will be written in the file \code{trace.fn}. Default is \code{NULL} which means that the trace matrix will be stored in the returned value rather than in a file.
 			}
 		}
 	}

@@ -104,14 +104,15 @@ GenSA <- function(par=NULL, fn, lower, upper, control=list(), ...)
 	con <- list(
 			maxit = 5000,
 			threshold.stop = NULL,
-			temp = 5230,
+			temperature = 5230,
 			visiting.param = 2.62,
 			acceptance.param = -5.0,
 			max.time = NULL,
 			nb.stop.improvement = 1e6,
 			smooth = TRUE,
-			max.call = 1e7,
+			max.call = 10000000,
 			simple.function = FALSE,
+			trace.fn = NULL,
 			verbose = FALSE
 	)
 	con$high.dim = TRUE
@@ -200,6 +201,14 @@ GenSA <- function(par=NULL, fn, lower, upper, control=list(), ...)
 		ret$trace.mat[,4] <- as.numeric(.Call(getRTraceMat, instance, "minEnergy"))
 		colnames(ret$trace.mat) <- c("nb.steps", "temperature", "function.value", "current.minimum")
 	}
+	if (!is.null(con$trace.fn)) {
+		if (con$verbose) {
+			cat(paste('Writing trace.mat data into file:', con$trace.fn,'\n'))
+		}
+		write.table(ret$trace.mat, file=con$trace.fn, col.names=TRUE, row.names=FALSE)
+		ret$trace.mat <- paste('trace.mat is written in file:', con$trace.fn)
+	}
+	
 	
 	res <- .Call(getRNbFuncCall, instance)
 	if (is.null(res)) {

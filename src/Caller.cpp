@@ -193,7 +193,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 	}
 	else
 	{
-		engine_.setMaxTime(DBL_MAX);
+		engine_.setIsSimpleFunction(false);
 	}
 
 
@@ -207,7 +207,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 	engine_.setX(xSize, REAL(x_R));
 
 	// Initial temperature
-	engine_.setInitialTemp(asReal(getListElement(controls_R, (char*) "temp")));
+	engine_.setInitialTemp(asReal(getListElement(controls_R, (char*) "temperature")));
 
 	// Visiting parameter
 	engine_.setVisitingParam(

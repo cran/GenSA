@@ -1,3 +1,9 @@
+2012-12-10: Sylvain Gubian  <DL.RSupport@pmi.com>
+		* Version: 1.1.3
+		*R/GenSA.R: Fix max.call according reviewer suggestion
+		*R/GenSA.R: Replace temp by temperature according reviewer suggestion, add trace.fn argument
+		*man/GenSA.Rd: Replace temp by temperature according reviewer suggestion, add simple.function control param, trace.fn
+
 2012-11-07: Sylvain Gubian  <DL.RSupport@pmi.com>
 		* Version: 1.1.2
 		*src/Engine.cpp: Fixing starting point generation
