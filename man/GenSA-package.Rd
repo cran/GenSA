@@ -33,7 +33,7 @@ Maintainer: DL.RSupport@pmi.com
 }
 
 \references{
-Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
+Xiang Y, Gubian S, Suomela B, Hoeng. "Generalized Simulated Annealing for Global Optimization: the GenSA Package". \href{http://journal.r-project.org/archive/2013-1/xiang-gubian-suomela-etal.pdf}{The R Journal, 5(1):13-29, June 2013}.
 
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 

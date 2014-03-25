@@ -1,3 +1,10 @@
+2014-03-13: Sylvain Gubian <DL.RSupport@pmi.com>
+        * Version: 1.1.4
+        * inst/CITATION: Adjust citation information
+        * man/GenSA-package.Rd: Adjust citation information
+        * man/GenSA.Rd: Adjust citation information
+        * src/Engine.cpp: Check if objective function is not creating NaN, inifinity with many tries
+
 2012-12-10: Sylvain Gubian  <DL.RSupport@pmi.com>
 		* Version: 1.1.3
 		*R/GenSA.R: Fix max.call according reviewer suggestion

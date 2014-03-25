@@ -94,6 +94,7 @@ int Engine::initialize()
 	// Check if starting point is in constraint
 	bool inConstraint = true;
 	bool initError = true;
+    unsigned int reinitCount = 0;
 	while (initError)
 	{
 		if (inConstraint)
@@ -128,6 +129,11 @@ int Engine::initialize()
 				Rprintf(
 						" give NaN, NA, or inf, generating new starting point\n");
 			}
+            if (reinitCount >= MAX_REINIT_COUNT)
+            {
+                Rprintf("Stopping algorithm because function to optimize create NaN or (+/-) infinity values even with trying new random parameters");
+                return -1;
+            }
 			double rd = 0;
 			for (unsigned int i=0; i < x_.size(); ++i)
 			{
@@ -135,6 +141,7 @@ int Engine::initialize()
 				rd = Utils::ran2(&idum_);
 				x_[i] = lower_[i] + rd * (upper_[i] - lower_[i]);
 			}
+            reinitCount++;
 		}
 		else
 		{

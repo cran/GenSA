@@ -16,6 +16,7 @@
 #include "Utils.h"
 
 #define BIG_VALUE	1.e13
+#define MAX_REINIT_COUNT 10000
 
 class Engine
 {
