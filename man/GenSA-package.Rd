@@ -13,15 +13,15 @@
 Package for Generalized Simulated Annealing
 }
 \description{
-This package implements a function that searches for global minimum of a very complex non-linear objective function with a very large number of optima. 
+Implementation of a function that searches for global minimum of a very complex non-linear objective function with a very large number of optima. 
 }
 
 \details{
 \tabular{ll}{
 Package: \tab GenSA\cr
 Type: \tab Package\cr
-Version: \tab 1.0.3\cr
-Date: \tab 2011-11-25\cr
+Version: \tab 1.1.5\cr
+Date: \tab 2015-03-31\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }

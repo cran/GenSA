@@ -1,3 +1,7 @@
+2015-03-31: Sylvain Gubian <DL.RSupport@pmi.com>
+        * Version: 1.1.5
+        * R/GenSA.R: Specify package name in .Call calls and put function name in quotes
+
 2014-03-13: Sylvain Gubian <DL.RSupport@pmi.com>
         * Version: 1.1.4
         * inst/CITATION: Adjust citation information
