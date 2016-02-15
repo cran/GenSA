@@ -1,17 +1,17 @@
 %-#########################################################################################
 %- This program is distributed in the hope that it will be useful,
-%- but WITHOUT ANY WARRANTY; without even the implied warranty of
-%- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-%- GNU General Public License for more details.
-%-#########################################################################################
+    %- but WITHOUT ANY WARRANTY; without even the implied warranty of
+    %- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    %- GNU General Public License for more details.
+    %-#########################################################################################
 
-\name{GenSA}
-\alias{GenSA}
-\title{
-    Generalized Simulated Annealing Function
-}
+    \name{GenSA}
+    \alias{GenSA}
+    \title{
+        Generalized Simulated Annealing Function
+    }
 \description{
-    Function which searchs for global minimum of a very complex non-linear objective function with a very large number of optima. 
+    This function searches for global minimum of a very complex non-linear objective function with a very large number of optima. 
 }
 
 \usage{
@@ -80,8 +80,8 @@
                 \item{\code{simple.function}}{
                     Logical. \code{FALSE} means that the objective function has only a few local minima. Default is \code{FALSE} which means that the objective function is complicated with many local minima.
                 }
-                \item{\code{trace.fn}}{
-                    Character string. The trace matrix will be written in the file \code{trace.fn}. Default is \code{NULL} which means that the trace matrix will be stored in the returned value rather than in a file.
+                \item{\code{trace.mat}}{
+                    Logical. Default is \code{TRUE} which means that the trace matrix will be available in the returned value of \code{GenSA} call.
                 }
             }
     }
@@ -113,7 +113,7 @@
 }
 
 \references{
-    Xiang Y, Gubian S, Suomela B, Hoeng. "Generalized Simulated Annealing for Global Optimization: the GenSA Package". \href{http://journal.r-project.org/archive/2013-1/xiang-gubian-suomela-etal.pdf}{The R Journal, 5(1):13-29, June 2013}.
+    Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
 
         Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 

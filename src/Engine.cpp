@@ -94,7 +94,6 @@ int Engine::initialize()
     // Check if starting point is in constraint
     bool inConstraint = true;
     bool initError = true;
-    unsigned int reinitCount = 0;
     while (initError)
     {
         if (inConstraint)
@@ -129,11 +128,6 @@ int Engine::initialize()
                 Rprintf(
                         " give NaN, NA, or inf, generating new starting point\n");
             }
-            if (reinitCount >= MAX_REINIT_COUNT)
-            {
-                Rprintf("Stopping algorithm because function to optimize create NaN or (+/-) infinity values even with trying new random parameters");
-                return -1;
-            }
             double rd = 0;
             for (unsigned int i=0; i < x_.size(); ++i)
             {
@@ -141,7 +135,6 @@ int Engine::initialize()
                 rd = Utils::ran2(&idum_);
                 x_[i] = lower_[i] + rd * (upper_[i] - lower_[i]);
             }
-            reinitCount++;
         }
         else
         {
@@ -208,10 +201,13 @@ int Engine::startSearch()
         }
         ++indTrace_;
         // Do the tracing here
-        tracer_.addValue("currentEnergy", etot0_);
-        tracer_.addValue("minEnergy", eMini_);
-        tracer_.addValue("nSteps", itNew);
-        tracer_.addValue("temperature", temSta_);
+        if (useTraceMat())
+        {
+            tracer_.addValue("currentEnergy", etot0_);
+            tracer_.addValue("minEnergy", eMini_);
+            tracer_.addValue("nSteps", itNew);
+            tracer_.addValue("temperature", temSta_);
+        }
     }
     if (etot_ < eMini_)
     {
@@ -429,10 +425,13 @@ L2435:
                             etot0_ = etot_;
                         }
                     } // endif etot_ < eMini_
-                    tracer_.addValue("currentEnergy", etot0_);
-                    tracer_.addValue("minEnergy", eMini_);
-                    tracer_.addValue("nSteps", itNew);
-                    tracer_.addValue("temperature", tem_);
+                    if (useTraceMat())
+                    {
+                        tracer_.addValue("currentEnergy", etot0_);
+                        tracer_.addValue("minEnergy", eMini_);
+                        tracer_.addValue("nSteps", itNew);
+                        tracer_.addValue("temperature", tem_);
+                    }
                     if (checkStoping())
                     {
                         stopSearch();
@@ -484,10 +483,13 @@ L2435:
                     std::copy(temp.begin(), temp.end(), xMini_.begin());
                     eMini_ = eTemp;
                     indexNoEminiUpdate = 0;
-                    tracer_.updateLastValue("currentEnergy", etot0_);
-                    tracer_.updateLastValue("minEnergy", eMini_);
-                    tracer_.updateLastValue("nSteps", itNew);
-                    tracer_.updateLastValue("temperature", tem_);
+                    if (useTraceMat())
+                    {
+                        tracer_.updateLastValue("currentEnergy", etot0_);
+                        tracer_.updateLastValue("minEnergy", eMini_);
+                        tracer_.updateLastValue("nSteps", itNew);
+                        tracer_.updateLastValue("temperature", tem_);
+                    }
                 }
             }
             if (indexNoEminiUpdate >= indexTolEminiUpdate)
@@ -506,10 +508,13 @@ L2435:
                     std::copy(xMiniMarkov.begin(), xMiniMarkov.end(),
                             xMini_.begin());
                     eMini_ = eMiniMarkov;
-                    tracer_.updateLastValue("currentEnergy", etot0_);
-                    tracer_.updateLastValue("minEnergy", eMini_);
-                    tracer_.updateLastValue("nSteps", itNew);
-                    tracer_.updateLastValue("temperature", tem_);
+                    if (useTraceMat())
+                    {
+                        tracer_.updateLastValue("currentEnergy", etot0_);
+                        tracer_.updateLastValue("minEnergy", eMini_);
+                        tracer_.updateLastValue("nSteps", itNew);
+                        tracer_.updateLastValue("temperature", tem_);
+                    }
                     if (isUserVerbose())
                     {
                         Rprintf("\nIt: %d, obj value: %.10g\n", itNew, eMini_);
@@ -580,16 +585,20 @@ bool Engine::checkStoping()
         }
         return true;
     }
-    if (indTrace_ > noImprovementStop_)
+
+    if (useTraceMat())
     {
-        delta = tracer_.getLastValue("minEnergy") - eMini_;
-        if (delta < 1e-10)
+        if (indTrace_ > noImprovementStop_)
         {
-            if (isVerbose())
+            delta = tracer_.getLastValue("minEnergy") - eMini_;
+            if (delta < 1e-10)
             {
-                Rprintf("No improvement in %i ind_trace\n", noImprovementStop_);
+                if (isVerbose())
+                {
+                    Rprintf("No improvement in %i ind_trace\n", noImprovementStop_);
+                }
+                return true;
             }
-            return true;
         }
     }
     return false;
@@ -902,8 +911,8 @@ int Engine::smoothSearch()
     int m = 5;
     bool canstop = 0;
 
-    wa = (double*) malloc(
-            ((2 * m + 4) * xSize + 11 * m * m + 8 * m) * sizeof(double));
+    wa = (double*) R_alloc(
+            ((2 * m + 4) * xSize + 11 * m * m + 8 * m), sizeof(double));
     iwa = (int *) R_alloc(3 * xSize, sizeof(int));
 
     if (itSoftMax_ < 100)

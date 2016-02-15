@@ -1,15 +1,15 @@
 Package: GenSA
 Type: Package
-Title: Functions for Generalized Simulated Annealing
-Version: 1.1.5
-Date: 2015-03-31
+Title: R Functions for Generalized Simulated Annealing
+Version: 1.1.6
+Date: 2016-02-09
 Author: Sylvain Gubian, Yang Xiang, Brian Suomela, Julia Hoeng, PMP SA.
 Maintainer: Sylvain Gubian <DL.RSupport@pmi.com>
 Depends: R (>= 2.12.0)
 Description: Performs search for global minimum of a very complex non-linear objective function with a very large number of optima.
 License: GPL-2
 LazyLoad: yes
-Packaged: 2015-03-31 08:52:09 UTC; sgubian
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2015-03-31 11:38:41
+Packaged: 2016-02-15 15:53:46 UTC; sgubian
+Date/Publication: 2016-02-15 23:45:25

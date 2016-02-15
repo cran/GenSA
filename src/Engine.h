@@ -16,289 +16,298 @@
 #include "Utils.h"
 
 #define BIG_VALUE	1.e13
-#define MAX_REINIT_COUNT 10000
 
 class Engine
 {
-private:
-	double etot_;
-	double etot0_;
-	double eMini_;
-	double fValue_;
-	double temSta_;
-	double tem_ ;
-	double qv_;
-	double qa_;
-	double reps_;
-	double pgTol_;
-	double factr_;
-	double realEnergyThreshold_;
-	double maxTime_;
-	double timeSpan_;
-	double temRestart_;
-	clock_t startTime_;
-	clock_t endTime_;
-	bool hasConstraint_;
-	long int idum_;
-	int markovLength_;
-	int nbFctCall_;
-	int maxFctCall_;
-	int method_;
-	int itSoftMax_;
-	int indTrace_;
-	int maxStep_;
-	int interval_;
-	int noImprovementStop_;
-	bool knowRealEnergy_;
-	bool lsEnd_ ;
-	bool isSimpleFuction_;
-	dVec x_;
-	dVec xMini_;
-	dVec xBuffer_;
-	dVec xBackup_;
-	dVec lower_;
-	dVec upper_;
-	dVec xRange_;
-	dVec g_;
-	OptStruct rEnv_;
-	Tracer tracer_;
+    private:
+        double etot_;
+        double etot0_;
+        double eMini_;
+        double fValue_;
+        double temSta_;
+        double tem_ ;
+        double qv_;
+        double qa_;
+        double reps_;
+        double pgTol_;
+        double factr_;
+        double realEnergyThreshold_;
+        double maxTime_;
+        double timeSpan_;
+        double temRestart_;
+        clock_t startTime_;
+        clock_t endTime_;
+        bool hasConstraint_;
+        long int idum_;
+        int markovLength_;
+        int nbFctCall_;
+        int maxFctCall_;
+        int method_;
+        int itSoftMax_;
+        int indTrace_;
+        int maxStep_;
+        int interval_;
+        int noImprovementStop_;
+        bool knowRealEnergy_;
+        bool lsEnd_ ;
+        bool isSimpleFuction_;
+        bool useTraceMat_;
+        dVec x_;
+        dVec xMini_;
+        dVec xBuffer_;
+        dVec xBackup_;
+        dVec lower_;
+        dVec upper_;
+        dVec xRange_;
+        dVec g_;
+        OptStruct rEnv_;
+        Tracer tracer_;
 
-public:
-	Engine();
-	~Engine();
+    public:
+        Engine();
+        ~Engine();
 
-	enum
-	{
-		SMOOTH, HARD
-	};
+        enum
+        {
+            SMOOTH, HARD
+        };
 
-	bool isVerbose()
-	{
-		return false ;
-	}
-
-
-	bool isUserVerbose()
-	{
-		OptStruct OS = (OptStruct) rEnv_;
-		return (bool)(OS->verbose);
-	}
-
-	void setIsSimpleFunction(bool b)
-	{
-		isSimpleFuction_ = b;
-	}
-
-	bool getIsSimpleFunction()
-	{
-		return isSimpleFuction_;
-	}
+        bool isVerbose()
+        {
+            return false ;
+        }
 
 
-	void setTemSta(double v)
-	{
-		temSta_ = v;
-	}
-	double getTemSta()
-	{
-		return temSta_;
-	}
+        bool isUserVerbose()
+        {
+            OptStruct OS = (OptStruct) rEnv_;
+            return (bool)(OS->verbose);
+        }
 
-	void setMarkovLength(int v)
-	{
-		markovLength_ = v;
-	}
-	int getMarkovLenght()
-	{
-		return markovLength_;
-	}
+        void setIsSimpleFunction(bool b)
+        {
+            isSimpleFuction_ = b;
+        }
 
-	void setMaxStep(int v)
-	{
-		maxStep_ = v;
-	}
-	int getMaxStep()
-	{
-		return maxStep_;
-	}
-
-	void setInterval(int v)
-	{
-		interval_ = v;
-	}
-	int getInterval()
-	{
-		return interval_;
-	}
-
-	void setKnowRealEnergy(bool v)
-	{
-		knowRealEnergy_ = v;
-	}
-	bool knowRealEnergy()
-	{
-		return knowRealEnergy_;
-	}
-
-	void setRealEnergyThreshold(double v)
-	{
-		realEnergyThreshold_ = v;
-	}
-	double getRealEnergyThreshold()
-	{
-		return realEnergyThreshold_;
-	}
-
-	void setMaxTime(double v)
-	{
-		maxTime_ = v;
-	}
-	double getMaxTime()
-	{
-		return maxTime_;
-	}
-
-	void setNoImprovementStop(int v)
-	{
-		noImprovementStop_ = v;
-	}
-	int getNoImprovementStop()
-	{
-		return noImprovementStop_;
-	}
-
-	void setMethod(int v)
-	{
-		method_ = v;
-	}
-	int getMethod()
-	{
-		return method_;
-	}
-
-	void setMaxFctCall(int v)
-	{
-		maxFctCall_ = v;
-	}
-	int getMaxFctCall()
-	{
-		return maxFctCall_;
-	}
-
-	void setHasConstraint(bool v)
-	{
-		hasConstraint_ = v;
-	}
-	bool hasConstraint()
-	{
-		return hasConstraint_;
-	}
-
-	void setLower(int size, double* data)
-	{
-		lower_.assign(data, data+size) ;
-	}
-	const dVec& getLower()
-	{
-		return lower_;
-	}
-
-	void setUpper(int size, double* data)
-	{
-		upper_.assign(data, data+size) ;
-	}
-	const dVec& getUpper()
-	{
-		return upper_;
-	}
-
-	void setX(int size, double* data)
-	{
-		x_.assign(data, data+size) ;
-	}
-	const dVec& getX()
-	{
-		return x_;
-	}
-
-	void setInitialTemp(double v)
-	{
-		temSta_ = v;
-	}
-	double getInitialTemp()
-	{
-		return temSta_;
-	}
-
-	void setVisitingParam(double v)
-	{
-		qv_ = v;
-	}
-	double getVisitingParam()
-	{
-		return qv_;
-	}
-
-	void setAcceptanceParam(double v)
-	{
-		qa_ = v;
-	}
-	double getAcceptanceParam()
-	{
-		return qa_;
-	}
-
-	double getEmini()
-	{
-		return eMini_;
-	}
-
-	const dVec& getXMini()
-	{
-		return xMini_;
-	}
-
-	int getNbFctCall()
-	{
-		return nbFctCall_;
-	}
-
-	void setREnv(const OptStruct env)
-	{
-		rEnv_ = env;
-	}
-
-	const Tracer& getTracer()
-	{
-		return tracer_;
-	}
-
-	void setLSEnd(bool b)
-	{
-		lsEnd_ = b ;
-	}
-
-	void setTemRestart(double v)
-	{
-		temRestart_ = v;
-	}
+        bool getIsSimpleFunction()
+        {
+            return isSimpleFuction_;
+        }
 
 
-	int initialize();
-	int startSearch();
-	bool checkStoping();
-	void stopSearch();
-	void coordin(long int, dVec&);
-	int energy(const dVec&);
-	double lsEnergy(dVec&);
-	double visita(double*, double*, long int*);
-	double fObjective(const dVec& x);
-	double fn(const dVec& x);
-	bool judgeConstraint();
-	int smoothSearch();
-	int hardSearch();
-	int gradient();
-	void printVect(const dVec&);
+        void setTemSta(double v)
+        {
+            temSta_ = v;
+        }
+        double getTemSta()
+        {
+            return temSta_;
+        }
+
+        void setMarkovLength(int v)
+        {
+            markovLength_ = v;
+        }
+        int getMarkovLenght()
+        {
+            return markovLength_;
+        }
+
+        void setMaxStep(int v)
+        {
+            maxStep_ = v;
+        }
+        int getMaxStep()
+        {
+            return maxStep_;
+        }
+
+        void setInterval(int v)
+        {
+            interval_ = v;
+        }
+        int getInterval()
+        {
+            return interval_;
+        }
+
+        void setKnowRealEnergy(bool v)
+        {
+            knowRealEnergy_ = v;
+        }
+        bool knowRealEnergy()
+        {
+            return knowRealEnergy_;
+        }
+
+        void setRealEnergyThreshold(double v)
+        {
+            realEnergyThreshold_ = v;
+        }
+        double getRealEnergyThreshold()
+        {
+            return realEnergyThreshold_;
+        }
+
+        void setMaxTime(double v)
+        {
+            maxTime_ = v;
+        }
+        double getMaxTime()
+        {
+            return maxTime_;
+        }
+
+        void setNoImprovementStop(int v)
+        {
+            noImprovementStop_ = v;
+        }
+        int getNoImprovementStop()
+        {
+            return noImprovementStop_;
+        }
+
+        void setMethod(int v)
+        {
+            method_ = v;
+        }
+        int getMethod()
+        {
+            return method_;
+        }
+
+        void setMaxFctCall(int v)
+        {
+            maxFctCall_ = v;
+        }
+        int getMaxFctCall()
+        {
+            return maxFctCall_;
+        }
+
+        void setHasConstraint(bool v)
+        {
+            hasConstraint_ = v;
+        }
+        bool hasConstraint()
+        {
+            return hasConstraint_;
+        }
+
+        void setLower(int size, double* data)
+        {
+            lower_.assign(data, data+size) ;
+        }
+        const dVec& getLower()
+        {
+            return lower_;
+        }
+
+        void setUpper(int size, double* data)
+        {
+            upper_.assign(data, data+size) ;
+        }
+        const dVec& getUpper()
+        {
+            return upper_;
+        }
+
+        void setX(int size, double* data)
+        {
+            x_.assign(data, data+size) ;
+        }
+        const dVec& getX()
+        {
+            return x_;
+        }
+
+        void setInitialTemp(double v)
+        {
+            temSta_ = v;
+        }
+        double getInitialTemp()
+        {
+            return temSta_;
+        }
+
+        void setVisitingParam(double v)
+        {
+            qv_ = v;
+        }
+        double getVisitingParam()
+        {
+            return qv_;
+        }
+
+        void setAcceptanceParam(double v)
+        {
+            qa_ = v;
+        }
+        double getAcceptanceParam()
+        {
+            return qa_;
+        }
+
+        double getEmini()
+        {
+            return eMini_;
+        }
+
+        const dVec& getXMini()
+        {
+            return xMini_;
+        }
+
+        int getNbFctCall()
+        {
+            return nbFctCall_;
+        }
+
+        void setREnv(const OptStruct env)
+        {
+            rEnv_ = env;
+        }
+
+        const Tracer& getTracer()
+        {
+            return tracer_;
+        }
+
+        void setLSEnd(bool b)
+        {
+            lsEnd_ = b ;
+        }
+
+        void setTemRestart(double v)
+        {
+            temRestart_ = v;
+        }
+
+        void setUseTraceMat(bool b)
+        {
+            useTraceMat_ = b;
+        }
+
+        bool useTraceMat()
+        {
+            return useTraceMat_;
+        }
+
+        int initialize();
+        int startSearch();
+        bool checkStoping();
+        void stopSearch();
+        void coordin(long int, dVec&);
+        int energy(const dVec&);
+        double lsEnergy(dVec&);
+        double visita(double*, double*, long int*);
+        double fObjective(const dVec& x);
+        double fn(const dVec& x);
+        bool judgeConstraint();
+        int smoothSearch();
+        int hardSearch();
+        int gradient();
+        void printVect(const dVec&);
 
 };
 

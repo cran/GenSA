@@ -15,18 +15,18 @@
 
 class Tracer
 {
-public:
-	Tracer() {};
-	virtual ~Tracer() {};
-	void setKeyList(const strVec& keylist) ;
-	const double* getVectorPtr(const std::string& key) ;
-	double getLastValue(const std::string& key) ;
-	void updateLastValue(const std::string& key, double value);
-	void addValue(const std::string& key, double value) ;
-	unsigned int getTracerLength() ;
-	void clear() ;
-private:
-	Map traceMap_ ;
+    public:
+        Tracer() {};
+        virtual ~Tracer() {};
+        void setKeyList(const strVec& keylist) ;
+        const double* getVectorPtr(const std::string& key) ;
+        double getLastValue(const std::string& key) ;
+        void updateLastValue(const std::string& key, double value);
+        void addValue(const std::string& key, double value) ;
+        unsigned int getTracerLength() ;
+        void clear() ;
+    private:
+        Map traceMap_ ;
 };
 
 #endif

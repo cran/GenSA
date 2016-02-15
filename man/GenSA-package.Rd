@@ -20,8 +20,8 @@ Implementation of a function that searches for global minimum of a very complex 
 \tabular{ll}{
 Package: \tab GenSA\cr
 Type: \tab Package\cr
-Version: \tab 1.1.5\cr
-Date: \tab 2015-03-31\cr
+Version: \tab 1.1.6\cr
+Date: \tab 2016-02-09\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -33,7 +33,7 @@ Maintainer: DL.RSupport@pmi.com
 }
 
 \references{
-Xiang Y, Gubian S, Suomela B, Hoeng. "Generalized Simulated Annealing for Global Optimization: the GenSA Package". \href{http://journal.r-project.org/archive/2013-1/xiang-gubian-suomela-etal.pdf}{The R Journal, 5(1):13-29, June 2013}.
+Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
 
 Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 

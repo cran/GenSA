@@ -1,13 +1,15 @@
+2016-02-09: Sylvain Gubian <DL.RSupport@pmi.com>
+        * Version: 1.1.6
+        * R/GenSA.R: Add trace.mat option in control list
+        * src/Engine.cpp: Fix memory leak in smooth search function
+
 2015-03-31: Sylvain Gubian <DL.RSupport@pmi.com>
         * Version: 1.1.5
         * R/GenSA.R: Specify package name in .Call calls and put function name in quotes
 
-2014-03-13: Sylvain Gubian <DL.RSupport@pmi.com>
+2014-01-13: Sylvain Gubian <DL.RSupport@pmi.com>
         * Version: 1.1.4
-        * inst/CITATION: Adjust citation information
-        * man/GenSA-package.Rd: Adjust citation information
-        * man/GenSA.Rd: Adjust citation information
-        * src/Engine.cpp: Check if objective function is not creating NaN, inifinity with many tries
+        * inst/CITATION: Adjust publication date of the article
 
 2012-12-10: Sylvain Gubian  <DL.RSupport@pmi.com>
 		* Version: 1.1.3

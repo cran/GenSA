@@ -39,26 +39,26 @@ typedef std::map<std::string, dVec>::iterator MapIt;
 
 typedef struct opt_struct
 {
-	SEXP R_fn; /* function */
-	SEXP R_jc; /* judge constraint function */
-	SEXP R_env; /* where to evaluate the calls */
-	SEXP xNames; /* names for x */
-	int verbose;
+    SEXP R_fn; /* function */
+    SEXP R_jc; /* judge constraint function */
+    SEXP R_env; /* where to evaluate the calls */
+    SEXP xNames; /* names for x */
+    int verbose;
 } opt_struct, *OptStruct;
 
 
 class Utils
 {
-public:
-	static double dSign(double *a, double *b);
-	static double dMod(double *x, double *y);
-	static double ran2(long int *idum);
-	static double yyGas(long int *idum);
-	static double yyGaml(double *xx);
-	static void setulb(int n, int m, double *x, double *l, double *u, int *nbd,
-			double *f, double *g, double factr, double *pgtol, double *wa,
-			int * iwa, char *task, int iprint, int *lsave, int *isave,
-			double *dsave);
+    public:
+        static double dSign(double *a, double *b);
+        static double dMod(double *x, double *y);
+        static double ran2(long int *idum);
+        static double yyGas(long int *idum);
+        static double yyGaml(double *xx);
+        static void setulb(int n, int m, double *x, double *l, double *u, int *nbd,
+                double *f, double *g, double factr, double *pgtol, double *wa,
+                int * iwa, char *task, int iprint, int *lsave, int *isave,
+                double *dsave);
 };
 
 #endif // UTILS_H_
