@@ -5,7 +5,7 @@
 //
 // Author: Sylvain Gubian, PMP SA
 //
-//#########################################################################################
+//#############################################################################
 
 #ifndef ENGINE_H_
 #define ENGINE_H_
@@ -60,12 +60,12 @@ class Engine
         dVec upper_;
         dVec xRange_;
         dVec g_;
-        OptStruct rEnv_;
         Tracer tracer_;
 
     public:
         Engine();
         ~Engine();
+        OptStruct rEnv_;
 
         enum
         {
@@ -291,6 +291,11 @@ class Engine
         bool useTraceMat()
         {
             return useTraceMat_;
+        }
+        
+        void setSeed(long int seed)
+        {
+            idum_ = seed;
         }
 
         int initialize();

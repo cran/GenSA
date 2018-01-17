@@ -11,6 +11,8 @@
 #include "Engine.h"
 #include <stdexcept>
 
+using namespace std;
+
 Engine::Engine()
 {
 }
@@ -748,7 +750,7 @@ double Engine::fn(const dVec& x)
 
     // Allocate vector for R which is size of the vector in the R context.
     PROTECT(x4R = allocVector(REALSXP, x.size()));
-    if (!rEnv_->xNames)
+    if (rEnv_->xNames)
         setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
 
     for (unsigned int i = 0; i < x.size(); i++)
@@ -781,7 +783,7 @@ bool Engine::judgeConstraint()
 
     // Allocate vector for R which is size of the vector in the R context.
     PROTECT(x4R = allocVector(REALSXP, x_.size()));
-    if (!rEnv_->xNames)
+    if (rEnv_->xNames)
         setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
 
     for (unsigned int i = 0; i < x_.size(); i++)

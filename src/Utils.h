@@ -23,6 +23,8 @@
 #include <map>
 #include <string>
 
+using namespace std;
+
 //#define GENSA_DBG
 
 #define MIN(a,b) ((a) <= (b) ? (a) : (b))

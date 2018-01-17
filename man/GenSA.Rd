@@ -83,6 +83,10 @@
                 \item{\code{trace.mat}}{
                     Logical. Default is \code{TRUE} which means that the trace matrix will be available in the returned value of \code{GenSA} call.
                 }
+                \item{\code{seed}}{
+                    Integer. Negative integer value that can be set to
+                    initialize the internal random generator. 
+                }
             }
     }
 }
@@ -113,7 +117,7 @@
 }
 
 \references{
-    Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{http://journal.r-project.org/}.
+    Xiang Y, Gubian S, Suomela B, Hoeng (2012). "Generalized Simulated Annealing for Efficient Global Optimization: the GenSA Package for R". The R Journal, Forthcoming. \url{https://journal.r-project.org/archive/2013/RJ-2013-002/index.html}.
 
         Tsallis C (1988). "Possible generalization of Boltzmann-Gibbs statistics." Journal of Statistical Physics, 52, 479--487.
 

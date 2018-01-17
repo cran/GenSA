@@ -5,7 +5,7 @@
 //
 // Author: Sylvain Gubian, PMP SA
 //
-//#########################################################################################
+//#############################################################################
 #include "Caller.h"
 
 SEXP Caller::getEnergy()
@@ -27,6 +27,8 @@ SEXP Caller::getXMiniVector()
     doubleValuePtr = NUMERIC_POINTER(returnValue);
     memcpy(doubleValuePtr, &(engine_.getXMini())[0],
             engine_.getXMini().size() * sizeof(double));
+
+    setAttrib(returnValue, R_NamesSymbol, engine_.rEnv_->xNames);
     Rf_unprotect(1);
     return returnValue;
 }
@@ -203,7 +205,11 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     {
         engine_.setIsSimpleFunction(false);
     }
-
+    
+    // Setting an initial internal seeding for the random generator
+    engine_.setSeed(
+            asInteger(
+                getListElement(controls_R, (char*) "seed")));
 
     // Lower bounds
     engine_.setLower(xSize, REAL(lb_R));
