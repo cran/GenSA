@@ -10,6 +10,7 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <string>
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
@@ -21,7 +22,7 @@
 #include <time.h>
 #include <vector>
 #include <map>
-#include <string>
+
 
 using namespace std;
 

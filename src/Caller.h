@@ -43,7 +43,7 @@ class Caller
 
 extern "C"
 {
-    SEXP createInstance();
+    SEXP createInstance(void);
     SEXP releaseInstance(SEXP R_instancePtr);
     SEXP execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
             SEXP controls_R, SEXP genSAEnvironment, SEXP R_instancePtr);

@@ -50,7 +50,7 @@ SEXP Caller::getTraceMatSize()
 SEXP Caller::getTraceMat(const char* key)
 {
     SEXP returnValue = R_NilValue;
-    std::string k = key;
+    std::string k(key);
     double* doubleValuePtr = 0;
     Tracer tracer = engine_.getTracer();
     unsigned int size = tracer.getTracerLength();
@@ -108,15 +108,14 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     // Number of maximum step to iterate
     engine_.setMaxStep(asInteger(getListElement(controls_R, (char*) "maxit")));
 
-    // Get the idum parameter (seed.random)
-    long int seedRandom = -100377;
-    if (!isNull(getListElement(controls_R, (char*) "internal.random")))
+    // Get the idum parameter (seed)
+    if (!isNull(getListElement(controls_R, (char*) "seed")))
     {
-        seedRandom = (long int) (asInteger(
-                    getListElement(controls_R, (char*) "internal.random")));
+        engine_.setSeed((long int) (asInteger(
+                    getListElement(controls_R, (char*) "seed"))));
     }
     else
-        seedRandom = -100377;
+        engine_.setSeed((long int)(-100377));
 
     engine_.setInterval(
             asInteger(getListElement(controls_R, (char*) "REPORT")));
@@ -287,7 +286,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 }
 
 // Functions for RWrapping of C++ code
-SEXP createInstance()
+SEXP createInstance(void)
 {
     SEXP Rptr = R_NilValue;
     Caller* instancePtr = new Caller();
