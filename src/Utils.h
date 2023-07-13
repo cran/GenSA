@@ -11,6 +11,7 @@
 #define UTILS_H_
 
 #include <string>
+#include <vector>
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
@@ -20,7 +21,6 @@
 #include <float.h>
 #include <math.h>
 #include <time.h>
-#include <vector>
 #include <map>
 
 

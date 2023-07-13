@@ -1,8 +1,8 @@
 Package: GenSA
 Type: Package
 Title: R Functions for Generalized Simulated Annealing
-Version: 1.1.8
-Date: 2023-02-09
+Version: 1.1.9
+Date: 2023-07-11
 Author: Sylvain Gubian, Yang Xiang, Brian Suomela, Julia Hoeng, PMP SA.
 Maintainer: Sylvain Gubian <DL.RSupport@pmi.com>
 Depends: R (>= 2.12.0)
@@ -13,5 +13,5 @@ LazyLoad: yes
 NeedsCompilation: yes
 Repository: CRAN
 RoxygenNote: 7.2.3
-Packaged: 2023-02-14 10:18:37 UTC; sgubian
-Date/Publication: 2023-02-15 10:40:05 UTC
+Packaged: 2023-07-11 11:10:06 UTC; sgubian
+Date/Publication: 2023-07-13 14:30:06 UTC
