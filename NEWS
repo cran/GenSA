@@ -1,3 +1,7 @@
+2023-09-14: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.10
+    - src/Linpack.h: Added C declaration of BLAS routines (which will be removed soon in R core) 
+
 2023-07-11: Sylvain Gubian <DL.RSupport@pmi.com>
     - Version 1.1.9
     - src/Utils.h: Adjust include order to fix STL/clang17 conflicting issue with R internal includes order 
