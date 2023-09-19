@@ -16,7 +16,8 @@
 #include <Rdefines.h>
 #include <Rinternals.h>
 #include <Rmath.h>
-#include <R_ext/Applic.h>
+#include <R_ext/BLAS.h>
+//#include <R_ext/Applic.h>
 #include <R_ext/Linpack.h>
 #include <float.h>
 #include <math.h>

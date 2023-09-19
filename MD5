@@ -1,4 +1,4 @@
-f423d64a3b26544b1b2c12befb01d203 *DESCRIPTION
+4bdd8b9249c2cd0e145c9a78b41f1da3 *DESCRIPTION
 efc46c4426ef291ae5256818d4984702 *NAMESPACE
 5880f3a912275978c3d218c2b94b463c *NEWS
 4e2f5c87baf1c41c348442a68fbfec5c *R/GenSA.R
@@ -8,9 +8,8 @@ ecb2ecceb20009407107ad36aeb332c9 *src/Caller.cpp
 5eaaf4e23ef880d5c12321c9fd998f33 *src/Caller.h
 fc1a228be505fb240cf5d48027657576 *src/Engine.cpp
 cc6b92032108ca045534c4e9ba90297b *src/Engine.h
-f6af623f82fc11d757a32402a2696723 *src/Linpack.h
 029f5c9be3885e9ac0699a5c7724ba9b *src/Makevars
 c21483ddfbdce5564a457b8c8a30e043 *src/Tracer.cpp
 71091e35bf03a8b491b069af040ffce2 *src/Tracer.h
-a829a4ada2ee88b418160531c5ebd29c *src/Utils.cpp
-165025c816bf061dd2e9d7d43fdb1737 *src/Utils.h
+f5b268bbc627abe4f471906692d2cc6e *src/Utils.cpp
+58b796ea61520f9a0ce3b81286296c63 *src/Utils.h
