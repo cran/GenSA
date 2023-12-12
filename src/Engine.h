@@ -161,6 +161,9 @@ class Engine
         void setNoImprovementStop(int v)
         {
             noImprovementStop_ = v;
+            if (!useTraceMat_ && v != -1) {
+                warning("Warning, trace mat has to be enabled to make no improvement stop criteria working");
+            }
         }
         int getNoImprovementStop()
         {
@@ -258,7 +261,7 @@ class Engine
             return xMini_;
         }
 
-        int getNbFctCall()
+        long int getNbFctCall()
         {
             return nbFctCall_;
         }
@@ -286,6 +289,11 @@ class Engine
         void setUseTraceMat(bool b)
         {
             useTraceMat_ = b;
+            Rprintf("value: %i\n", noImprovementStop_);
+            if (!b && noImprovementStop_ > 0)
+            {
+                warning("Trace mat has to be activated to have no improvment stop criteria to work.");
+            }
         }
 
         bool useTraceMat()

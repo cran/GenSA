@@ -274,7 +274,7 @@ GenSA <- function(par = NULL, fn, lower, upper, control = list(), ...) {
                 visiting.param = 2.62,
                 acceptance.param = -5.0,
                 max.time = NULL,
-                nb.stop.improvement = 1e6,
+                nb.stop.improvement = -1,
                 smooth = TRUE,
                 max.call = 10000000,
                 simple.function = FALSE,

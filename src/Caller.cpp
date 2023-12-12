@@ -156,11 +156,6 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
         engine_.setMaxTime(DBL_MAX);
     }
 
-    // Number of improvement for stopping
-    engine_.setNoImprovementStop(
-            asInteger(
-                getListElement(controls_R, (char*) "nb.stop.improvement")));
-
     // Method choice
 
     if (asLogical(getListElement(controls_R, (char*) "smooth")))
@@ -179,6 +174,11 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     else {
         engine_.setUseTraceMat(false);
     }
+
+    // Number of improvement for stopping
+    engine_.setNoImprovementStop(
+            asInteger(
+                getListElement(controls_R, (char*) "nb.stop.improvement")));
 
     // Maximum function calls
     engine_.setMaxFctCall(

@@ -55,7 +55,6 @@ int Engine::initialize()
 
     nbFctCall_ = 0;
     idum_ = -100377;
-    indTrace_ = 0;
 
     // Check markov chain length
     if (0 != markovLength_ % x_.size())
@@ -156,6 +155,7 @@ int Engine::startSearch()
     double temQa;
     double visit, a, b;
     int itNew = 0, itDev;
+    indTrace_ = 0.;
     double s1, s, t1, t2, r, pqa, pqa1;
     bool inConstraint = false;
     bool eMini_NotChanged = true;
@@ -187,11 +187,6 @@ int Engine::startSearch()
     xMini_ = x_;
     etot0_ = etot_;
 
-    if (isVerbose())
-
-    {
-        Rprintf("first time, ind_trace is: %i\n", indTrace_);
-    }
     // Initialize etot0 and temp
     if (!lsEnd_)
     {
@@ -200,16 +195,15 @@ int Engine::startSearch()
         {
             eMini_ = etot_;
             xMini_ = x_;
+            if (useTraceMat())
+            {
+                tracer_.addValue("currentEnergy", etot0_);
+                tracer_.addValue("minEnergy", eMini_);
+                tracer_.addValue("nSteps", itNew);
+                tracer_.addValue("temperature", temSta_);
+            }
         }
-        ++indTrace_;
-        // Do the tracing here
-        if (useTraceMat())
-        {
-            tracer_.addValue("currentEnergy", etot0_);
-            tracer_.addValue("minEnergy", eMini_);
-            tracer_.addValue("nSteps", itNew);
-            tracer_.addValue("temperature", temSta_);
-        }
+
     }
     if (etot_ < eMini_)
     {
@@ -247,11 +241,11 @@ int Engine::startSearch()
     }
     int stepRecord = 0;
 L2435:
-
     // Main loop
     for (int i = 0; i < maxStep_; ++i)
     {
         itNew = i + 1;
+        indTrace_++;
         s1 = (double) itNew;
         s = s1 + 1.;
         t1 = exp((qv_ - 1.) * log(2.)) - 1.;
@@ -294,7 +288,7 @@ L2435:
                     {
                         if (isVerbose())
                         {
-                            Rprintf("IDUM before visit: %d\n", idum_);
+                            Rprintf("IDUM before visit: %ld\n", idum_);
                         }
                         visit = visita(&qv_, &tem_, &idum_);
                         if (visit > 1.e8)
@@ -317,7 +311,7 @@ L2435:
                         if (isVerbose())
                         {
                             Rprintf(
-                                    "visit: %.10g a: %.10g b: %.10g idum: %d x: %.10g\n",
+                                    "visit: %.10g a: %.10g b: %.10g idum: %ld x: %.10g\n",
                                     visit, a, b, idum_, x_[k]);
                         }
                     } // end coordinates loop
@@ -399,7 +393,7 @@ L2435:
                             xMini_ = x_;
                             eMini_NotChanged = false;
                             indexNoEminiUpdate = 0;
-                        }
+                        } 
                     }
                     else
                     {
@@ -426,14 +420,15 @@ L2435:
                         {
                             etot0_ = etot_;
                         }
-                    } // endif etot_ < eMini_
-                    if (useTraceMat())
-                    {
-                        tracer_.addValue("currentEnergy", etot0_);
-                        tracer_.addValue("minEnergy", eMini_);
-                        tracer_.addValue("nSteps", itNew);
-                        tracer_.addValue("temperature", tem_);
-                    }
+                        // if (useTraceMat())
+                        // {
+                        //     tracer_.addValue("currentEnergy", etot0_);
+                        //     tracer_.addValue("minEnergy", eMini_);
+                        //     tracer_.addValue("nSteps", indTrace_);
+                        //     tracer_.addValue("temperature", tem_);
+                        // }
+                    } 
+ 
                     if (checkStoping())
                     {
                         stopSearch();
@@ -480,17 +475,17 @@ L2435:
                 {
                     if (isUserVerbose())
                     {
-                        Rprintf("It: %d, obj value: %.10g\n", itNew, eTemp);
+                        Rprintf("It: %d, obj value (lsEnd): %.10g indTrace: %d\n", itNew, eTemp, indTrace_);
                     }
                     std::copy(temp.begin(), temp.end(), xMini_.begin());
                     eMini_ = eTemp;
                     indexNoEminiUpdate = 0;
                     if (useTraceMat())
                     {
-                        tracer_.updateLastValue("currentEnergy", etot0_);
-                        tracer_.updateLastValue("minEnergy", eMini_);
-                        tracer_.updateLastValue("nSteps", itNew);
-                        tracer_.updateLastValue("temperature", tem_);
+                        tracer_.addValue("currentEnergy", etot0_);
+                        tracer_.addValue("minEnergy", eMini_);
+                        tracer_.addValue("nSteps", indTrace_);
+                        tracer_.addValue("temperature", tem_);
                     }
                 }
             }
@@ -499,10 +494,6 @@ L2435:
                 //Rprintf("Before lsEnergy, itNew: %d x: %.15g %.15g\n", itNew, xMiniMarkov[0], xMiniMarkov[1]);
                 eMiniMarkov = lsEnergy(xMiniMarkov);
                 //Rprintf("lsEnergy called, itNew: %d eMiniMarkov: %.15g x: %.15g %.15g\n", itNew, eMiniMarkov, xMiniMarkov[0], xMiniMarkov[1]);
-                if (isUserVerbose())
-                {
-                    Rprintf(".");
-                }
                 indexNoEminiUpdate = 0;
                 indexTolEminiUpdate = x_.size();
                 if (eMiniMarkov < eMini_)
@@ -512,14 +503,14 @@ L2435:
                     eMini_ = eMiniMarkov;
                     if (useTraceMat())
                     {
-                        tracer_.updateLastValue("currentEnergy", etot0_);
-                        tracer_.updateLastValue("minEnergy", eMini_);
-                        tracer_.updateLastValue("nSteps", itNew);
-                        tracer_.updateLastValue("temperature", tem_);
+                        tracer_.addValue("currentEnergy", etot0_);
+                        tracer_.addValue("minEnergy", eMini_);
+                        tracer_.addValue("nSteps", indTrace_);
+                        tracer_.addValue("temperature", tem_);
                     }
                     if (isUserVerbose())
                     {
-                        Rprintf("\nIt: %d, obj value: %.10g\n", itNew, eMini_);
+                        Rprintf("It: %d, obj value: %.10g indTrace: %d\n", itNew, eMini_, indTrace_);
                     }
                     if (checkStoping())
                     {
@@ -547,19 +538,22 @@ L2435:
         }
     } // end step loop
     stopSearch();
+    if (isUserVerbose())
+    {
+        Rprintf("Algorithm reached max number of iterations.\n");
+    }
     return 0;
 }
 
 bool Engine::checkStoping()
 {
     bool canStop = false;
-    double delta = 0;
     if (knowRealEnergy_)
     {
         canStop = eMini_ <= realEnergyThreshold_;
         if (canStop)
         {
-            if (isVerbose())
+            if (isUserVerbose())
             {
                 Rprintf(
                         "Have got accurate energy %.10g <= %.10g in smooth search\n",
@@ -572,7 +566,7 @@ bool Engine::checkStoping()
     timeSpan_ = (double) (endTime_ - startTime_) / CLOCKS_PER_SEC;
     if (timeSpan_ > maxTime_)
     {
-        if (isVerbose())
+        if (isUserVerbose())
         {
             Rprintf("timeSpan = %.10g maxTime = %.10g\n", timeSpan_, maxTime_);
         }
@@ -580,7 +574,7 @@ bool Engine::checkStoping()
     }
     if (nbFctCall_ >= maxFctCall_)
     {
-        if (isVerbose())
+        if (isUserVerbose())
         {
             Rprintf("Stop. Nb function call=%d max function call=%d.\n",
                     nbFctCall_, maxFctCall_);
@@ -588,19 +582,21 @@ bool Engine::checkStoping()
         return true;
     }
 
-    if (useTraceMat())
+    if (useTraceMat() && noImprovementStop_ != -1)
     {
-        if (indTrace_ > noImprovementStop_)
+        if (tracer_.getTracerLength() == 0)
         {
-            delta = tracer_.getLastValue("minEnergy") - eMini_;
-            if (delta < 1e-10)
+            return false;
+        }
+        double last_iter_best_value = tracer_.getLastValue("nSteps");
+        if ((indTrace_ - last_iter_best_value) >= noImprovementStop_ &&
+            noImprovementStop_ != -1)
+        {
+            if (isUserVerbose())
             {
-                if (isVerbose())
-                {
-                    Rprintf("No improvement in %i ind_trace\n", noImprovementStop_);
-                }
-                return true;
+                Rprintf("No improvement in %i iterations\n", noImprovementStop_);
             }
+            return true;
         }
     }
     return false;
@@ -608,7 +604,7 @@ bool Engine::checkStoping()
 
 void Engine::stopSearch()
 {
-    if (isVerbose())
+    if (isUserVerbose())
     {
         Rprintf("Emini is: %.10g\n", eMini_);
         Rprintf("xmini are:\n");
@@ -617,7 +613,7 @@ void Engine::stopSearch()
     endTime_ = clock();
     timeSpan_ = (double) (endTime_ - startTime_) / CLOCKS_PER_SEC;
 
-    if (isVerbose())
+    if (isUserVerbose())
     {
         Rprintf("Totally it used %.10g secs\n", timeSpan_);
         Rprintf("No. of function call is: %d\n", nbFctCall_);

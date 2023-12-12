@@ -1,3 +1,13 @@
+2023-12-05: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.12
+    - src/Engine.cpp: Fix long int warning in Rprintf
+
+2023-11-27: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.11
+    - src/GenSA_init.c: Added registration of dynamic symbols.
+    - src/Engine.cpp: Fixed Fedora warnings with Rprintf long int arguments.
+    - src/Engine.cpp: Fixed no-improvement stoping criteria issue.
+
 2023-09-14: Sylvain Gubian <DL.RSupport@pmi.com>
     - Version 1.1.10
     - src/Linpack.h: Added C declaration of BLAS routines (which will be removed soon in R core) 
