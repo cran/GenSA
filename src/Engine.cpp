@@ -786,7 +786,10 @@ bool Engine::judgeConstraint()
     {
         if (!R_FINITE(x_[i]))
         {
-            Rprintf("x[%i] is NAN: %.10g\n", i, x_[i]);
+            if (isVerbose())
+            {
+                Rprintf("x[%i] is NAN: %.10g\n", i, x_[i]);
+            }
             REAL(x4R)[i] = 0;
         }
         else

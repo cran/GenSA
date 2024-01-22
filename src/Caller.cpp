@@ -111,11 +111,16 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     // Get the idum parameter (seed)
     if (!isNull(getListElement(controls_R, (char*) "seed")))
     {
-        engine_.setSeed((long int) (asInteger(
-                    getListElement(controls_R, (char*) "seed"))));
+        long int seed = (long int) (asInteger(
+                    getListElement(controls_R, (char*) "seed")));
+        if (seed > 0)
+        {
+            seed = -seed;
+        }
+        engine_.setSeed(seed);
     }
     else
-        engine_.setSeed((long int)(-100377));
+        engine_.setSeed((long int)(DEFAULT_SEED));
 
     engine_.setInterval(
             asInteger(getListElement(controls_R, (char*) "REPORT")));

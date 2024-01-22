@@ -14,6 +14,9 @@
 #include "Tracer.h"
 #include "Utils.h"
 
+#define DEFAULT_SEED    -100377
+
+
 class Caller
 {
     public:
