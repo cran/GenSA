@@ -12,7 +12,7 @@ SEXP Caller::getEnergy()
 {
     SEXP returnValue = R_NilValue;
     double* doubleValuePtr = 0;
-    Rf_protect(returnValue = allocVector(REALSXP, 1));
+    Rf_protect(returnValue = Rf_allocVector(REALSXP, 1));
     doubleValuePtr = NUMERIC_POINTER(returnValue);
     doubleValuePtr[0] = engine_.getEmini();
     Rf_unprotect(1);
@@ -23,12 +23,12 @@ SEXP Caller::getXMiniVector()
 {
     SEXP returnValue = R_NilValue;
     double* doubleValuePtr = 0;
-    Rf_protect(returnValue = allocVector(REALSXP, engine_.getX().size()));
+    Rf_protect(returnValue = Rf_allocVector(REALSXP, engine_.getX().size()));
     doubleValuePtr = NUMERIC_POINTER(returnValue);
     memcpy(doubleValuePtr, &(engine_.getXMini())[0],
             engine_.getXMini().size() * sizeof(double));
 
-    setAttrib(returnValue, R_NamesSymbol, engine_.rEnv_->xNames);
+    Rf_setAttrib(returnValue, R_NamesSymbol, engine_.rEnv_->xNames);
     Rf_unprotect(1);
     return returnValue;
 }
@@ -64,7 +64,7 @@ SEXP Caller::getTraceMat(const char* key)
         return returnValue;
     }
 
-    Rf_protect(returnValue = allocVector(REALSXP, size));
+    Rf_protect(returnValue = Rf_allocVector(REALSXP, size));
     doubleValuePtr = NUMERIC_POINTER(returnValue);
     memcpy(doubleValuePtr, vPtr, size * sizeof(double));
     Rf_unprotect(1);
@@ -84,10 +84,10 @@ SEXP Caller::getNbFuncCall()
 
 SEXP Caller::getListElement(SEXP list, char* elementName)
 {
-    SEXP elmt = R_NilValue, names = getAttrib(list, R_NamesSymbol);
+    SEXP elmt = R_NilValue, names = Rf_getAttrib(list, R_NamesSymbol);
     int i;
 
-    for (i = 0; i < length(list); ++i)
+    for (i = 0; i < Rf_length(list); ++i)
         if (strcmp(CHAR(STRING_ELT(names, i)), elementName) == 0)
         {
             elmt = VECTOR_ELT(list, i);
@@ -103,15 +103,15 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 
     // Markov chain length
     engine_.setMarkovLength(
-            asInteger(getListElement(controls_R, (char*) "markov.length")));
+            Rf_asInteger(getListElement(controls_R, (char*) "markov.length")));
 
     // Number of maximum step to iterate
-    engine_.setMaxStep(asInteger(getListElement(controls_R, (char*) "maxit")));
+    engine_.setMaxStep(Rf_asInteger(getListElement(controls_R, (char*) "maxit")));
 
     // Get the idum parameter (seed)
-    if (!isNull(getListElement(controls_R, (char*) "seed")))
+    if (!Rf_isNull(getListElement(controls_R, (char*) "seed")))
     {
-        long int seed = (long int) (asInteger(
+        long int seed = (long int) (Rf_asInteger(
                     getListElement(controls_R, (char*) "seed")));
         if (seed > 0)
         {
@@ -123,15 +123,15 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
         engine_.setSeed((long int)(DEFAULT_SEED));
 
     engine_.setInterval(
-            asInteger(getListElement(controls_R, (char*) "REPORT")));
+            Rf_asInteger(getListElement(controls_R, (char*) "REPORT")));
 
     // Real energy threshold
-    if (!isNull(getListElement(controls_R, (char*) "threshold.stop")))
+    if (!Rf_isNull(getListElement(controls_R, (char*) "threshold.stop")))
     {
 
         engine_.setKnowRealEnergy(true);
         engine_.setRealEnergyThreshold(
-                asReal(getListElement(controls_R, (char*) "threshold.stop")));
+                Rf_asReal(getListElement(controls_R, (char*) "threshold.stop")));
     }
     else
     {
@@ -139,11 +139,11 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     }
 
     // Tem restart for re-annealing
-    if (!isNull(getListElement(controls_R, (char*) "tem.restart")))
+    if (!Rf_isNull(getListElement(controls_R, (char*) "tem.restart")))
     {
 
         engine_.setTemRestart(
-                asReal(getListElement(controls_R, (char*) "tem.restart")));
+                Rf_asReal(getListElement(controls_R, (char*) "tem.restart")));
     }
     else
     {
@@ -151,10 +151,10 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     }
 
     // Maximum time allowed for calculation
-    if (!isNull(getListElement(controls_R, (char*) "max.time")))
+    if (!Rf_isNull(getListElement(controls_R, (char*) "max.time")))
     {
         engine_.setMaxTime(
-                asReal(getListElement(controls_R, (char*) "max.time")));
+                Rf_asReal(getListElement(controls_R, (char*) "max.time")));
     }
     else
     {
@@ -163,7 +163,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 
     // Method choice
 
-    if (asLogical(getListElement(controls_R, (char*) "smooth")))
+    if (Rf_asLogical(getListElement(controls_R, (char*) "smooth")))
     {
         engine_.setMethod(Engine::SMOOTH);
     }
@@ -172,7 +172,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
         engine_.setMethod(Engine::HARD);
     }
 
-    if (asLogical(getListElement(controls_R, (char*) "trace.mat")))
+    if (Rf_asLogical(getListElement(controls_R, (char*) "trace.mat")))
     {
         engine_.setUseTraceMat(true);
     }
@@ -182,15 +182,15 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
 
     // Number of improvement for stopping
     engine_.setNoImprovementStop(
-            asInteger(
+            Rf_asInteger(
                 getListElement(controls_R, (char*) "nb.stop.improvement")));
 
     // Maximum function calls
     engine_.setMaxFctCall(
-            asInteger(getListElement(controls_R, (char*) "max.call")));
+            Rf_asInteger(getListElement(controls_R, (char*) "max.call")));
 
     // Is there any constraint function defined
-    if (!isNull(jc_R))
+    if (!Rf_isNull(jc_R))
     {
         engine_.setHasConstraint(true);
     }
@@ -200,10 +200,10 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     }
 
     // Is it a simple function or not
-    if (!isNull(getListElement(controls_R, (char*) "simple.function")))
+    if (!Rf_isNull(getListElement(controls_R, (char*) "simple.function")))
     {
         engine_.setIsSimpleFunction(
-                (bool)asInteger(getListElement(controls_R, (char*) "simple.function")));
+                (bool)Rf_asInteger(getListElement(controls_R, (char*) "simple.function")));
     }
     else
     {
@@ -212,7 +212,7 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     
     // Setting an initial internal seeding for the random generator
     engine_.setSeed(
-            asInteger(
+            Rf_asInteger(
                 getListElement(controls_R, (char*) "seed")));
 
     // Lower bounds
@@ -225,19 +225,19 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     engine_.setX(xSize, REAL(x_R));
 
     // Initial temperature
-    engine_.setInitialTemp(asReal(getListElement(controls_R, (char*) "temperature")));
+    engine_.setInitialTemp(Rf_asReal(getListElement(controls_R, (char*) "temperature")));
 
     // Visiting parameter
     engine_.setVisitingParam(
-            asReal(getListElement(controls_R, (char*) "visiting.param")));
+            Rf_asReal(getListElement(controls_R, (char*) "visiting.param")));
 
     // Acceptance parameter
     engine_.setAcceptanceParam(
-            asReal(getListElement(controls_R, (char*) "acceptance.param")));
+            Rf_asReal(getListElement(controls_R, (char*) "acceptance.param")));
 
     // LSEnd param
     engine_.setLSEnd(
-            (bool) (asInteger(getListElement(controls_R, (char*) "high.dim"))));
+            (bool) (Rf_asInteger(getListElement(controls_R, (char*) "high.dim"))));
 
 #ifdef GENSA_DBG
     Rprintf("C++->Length of x:%i\n", xSize);
@@ -256,16 +256,16 @@ void Caller::execute(SEXP x_R, SEXP lb_R, SEXP ub_R, SEXP fn_R, SEXP jc_R,
     OptStruct OS;
     OS = (OptStruct) R_alloc(1, sizeof(opt_struct));
     OS->R_env = genSAEnvironment;
-    OS->xNames = getAttrib(x_R, R_NamesSymbol);
-    OS->verbose = (int) (asInteger(
+    OS->xNames = Rf_getAttrib(x_R, R_NamesSymbol);
+    OS->verbose = (int) (Rf_asInteger(
                 getListElement(controls_R, (char*) "verbose")));
     engine_.setREnv(OS);
 
-    PROTECT(OS->R_fn = lang2(fn_R, R_NilValue));
+    PROTECT(OS->R_fn = Rf_lang2(fn_R, R_NilValue));
 
-    if (!isNull(jc_R))
+    if (!Rf_isNull(jc_R))
     {
-        PROTECT(OS->R_jc = lang2(jc_R, R_NilValue));
+        PROTECT(OS->R_jc = Rf_lang2(jc_R, R_NilValue));
     }
     else
     {

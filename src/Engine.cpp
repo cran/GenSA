@@ -132,7 +132,7 @@ int Engine::initialize()
             double rd = 0;
             for (unsigned int i=0; i < x_.size(); ++i)
             {
-                // lower + runif(length(lower))*(upper-lower)
+                // lower + runif(Rf_length(lower))*(upper-lower)
                 rd = Utils::ran2(&idum_);
                 x_[i] = lower_[i] + rd * (upper_[i] - lower_[i]);
             }
@@ -745,9 +745,9 @@ double Engine::fn(const dVec& x)
     }
 
     // Allocate vector for R which is size of the vector in the R context.
-    PROTECT(x4R = allocVector(REALSXP, x.size()));
+    PROTECT(x4R = Rf_allocVector(REALSXP, x.size()));
     if (rEnv_->xNames)
-        setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
+        Rf_setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
 
     for (unsigned int i = 0; i < x.size(); i++)
     {
@@ -766,7 +766,7 @@ double Engine::fn(const dVec& x)
     }
 
     SETCADR(rEnv_->R_fn, x4R);
-    val = eval(rEnv_->R_fn, rEnv_->R_env);
+    val = Rf_eval(rEnv_->R_fn, rEnv_->R_env);
     res = REAL(val)[0];
     UNPROTECT(1);
     return res;
@@ -778,9 +778,9 @@ bool Engine::judgeConstraint()
     int res;
 
     // Allocate vector for R which is size of the vector in the R context.
-    PROTECT(x4R = allocVector(REALSXP, x_.size()));
+    PROTECT(x4R = Rf_allocVector(REALSXP, x_.size()));
     if (rEnv_->xNames)
-        setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
+        Rf_setAttrib(x4R, R_NamesSymbol, rEnv_->xNames);
 
     for (unsigned int i = 0; i < x_.size(); i++)
     {
@@ -799,7 +799,7 @@ bool Engine::judgeConstraint()
     }
 
     SETCADR(rEnv_->R_jc, x4R);
-    val = eval(rEnv_->R_jc, rEnv_->R_env);
+    val = Rf_eval(rEnv_->R_jc, rEnv_->R_env);
     res = LOGICAL(val)[0];
     UNPROTECT(1);
 
@@ -819,15 +819,15 @@ int Engine::hardSearch()
     double mu;
     int xSize = x_.size();
 
-    PROTECT(uiMatrix = allocMatrix(REALSXP, xSize * 2, xSize));
+    PROTECT(uiMatrix = Rf_allocMatrix(REALSXP, xSize * 2, xSize));
     //protect 1
-    PROTECT(ciVector = allocVector(REALSXP, xSize * 2));
+    PROTECT(ciVector = Rf_allocVector(REALSXP, xSize * 2));
     //protect 2
-    PROTECT(thetaVector = allocVector(REALSXP, xSize));
+    PROTECT(thetaVector = Rf_allocVector(REALSXP, xSize));
     //protect 3
-    PROTECT(xlow = allocVector(REALSXP, xSize));
+    PROTECT(xlow = Rf_allocVector(REALSXP, xSize));
     // protect 4
-    PROTECT(xhigh = allocVector(REALSXP, xSize));
+    PROTECT(xhigh = Rf_allocVector(REALSXP, xSize));
     // protect 5
     mu = 1.e-4;
     // Initialize ui with zeros
@@ -852,31 +852,31 @@ int Engine::hardSearch()
         REAL(xhigh)[i] = upper_[i];
     }
 
-    PROTECT(t = s = allocList(8));
+    PROTECT(t = s = Rf_allocList(8));
     //protect 6
     SET_TYPEOF(s, LANGSXP);
-    SETCAR(t, install("LSE"));
+    SETCAR(t, Rf_install("LSE"));
     t = CDR(t);
     SETCAR(t, thetaVector);
-    SET_TAG(t, install("theta"));
+    SET_TAG(t, Rf_install("theta"));
     t = CDR(t);
     SETCAR(t, uiMatrix);
-    SET_TAG(t, install("ui"));
+    SET_TAG(t, Rf_install("ui"));
     t = CDR(t);
     SETCAR(t, ciVector);
-    SET_TAG(t, install("ci"));
+    SET_TAG(t, Rf_install("ci"));
     t = CDR(t);
-    SETCAR(t, ScalarReal(mu));
-    SET_TAG(t, install("mu"));
+    SETCAR(t, Rf_ScalarReal(mu));
+    SET_TAG(t, Rf_install("mu"));
     t = CDR(t);
     SETCAR(t, xlow);
-    SET_TAG(t, install("xlow"));
+    SET_TAG(t, Rf_install("xlow"));
     t = CDR(t);
     SETCAR(t, xhigh);
-    SET_TAG(t, install("xhigh"));
+    SET_TAG(t, Rf_install("xhigh"));
     t = CDR(t);
-    SETCAR(t, ScalarInteger(nbFctCall_));
-    SET_TAG(t, install("count"));
+    SETCAR(t, Rf_ScalarInteger(nbFctCall_));
+    SET_TAG(t, Rf_install("count"));
 
     for (unsigned int i = 0; i < xBuffer_.size(); ++i)
     {
@@ -887,7 +887,7 @@ int Engine::hardSearch()
         }
     }
 
-    val = eval(s, rEnv_->R_env);
+    val = Rf_eval(s, rEnv_->R_env);
     fValue_ = REAL(VECTOR_ELT(val, 0))[0];
 
     //lsConvergence = INTEGER(VECTOR_ELT(val, 1))[0];

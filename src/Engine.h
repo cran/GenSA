@@ -162,7 +162,7 @@ class Engine
         {
             noImprovementStop_ = v;
             if (!useTraceMat_ && v != -1) {
-                warning("Warning, trace mat has to be enabled to make no improvement stop criteria working");
+                Rf_warning("Warning, trace mat has to be enabled to make no improvement stop criteria working");
             }
         }
         int getNoImprovementStop()
@@ -291,7 +291,7 @@ class Engine
             useTraceMat_ = b;
             if (!b && noImprovementStop_ > 0)
             {
-                warning("Trace mat has to be activated to have no improvment stop criteria to work.");
+                Rf_warning("Trace mat has to be activated to have no improvment stop criteria to work.");
             }
         }
 
