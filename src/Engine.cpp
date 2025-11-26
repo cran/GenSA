@@ -393,7 +393,7 @@ L2435:
                             xMini_ = x_;
                             eMini_NotChanged = false;
                             indexNoEminiUpdate = 0;
-                        } 
+                        }
                     }
                     else
                     {
@@ -427,8 +427,8 @@ L2435:
                         //     tracer_.addValue("nSteps", indTrace_);
                         //     tracer_.addValue("temperature", tem_);
                         // }
-                    } 
- 
+                    }
+
                     if (checkStoping())
                     {
                         stopSearch();
@@ -852,9 +852,7 @@ int Engine::hardSearch()
         REAL(xhigh)[i] = upper_[i];
     }
 
-    PROTECT(t = s = Rf_allocList(8));
-    //protect 6
-    SET_TYPEOF(s, LANGSXP);
+    PROTECT(t = s = Rf_allocLang(8));
     SETCAR(t, Rf_install("LSE"));
     t = CDR(t);
     SETCAR(t, thetaVector);
